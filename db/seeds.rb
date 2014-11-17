@@ -5,6 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-5.times do 
-  Meal.create(name: "Meal")
+5.times do
+  Meal.create(name: Faker::Name.name)
 end
