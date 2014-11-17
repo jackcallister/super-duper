@@ -1,10 +1,15 @@
 var App = React.createClass({
 
   didToggleMeal: function(index) {
-    // Make this actually toggle not just PUSH
     var selectedMeal = this.state.meals[index];
     var selectedMeals = this.state.selectedMeals;
-    selectedMeals.push(selectedMeal);
+    var index = selectedMeals.indexOf(selectedMeal);
+
+    if (index > -1) {
+      selectedMeals.splice(index, 1)
+    } else {
+      selectedMeals.push(selectedMeal);
+    }
 
     this.setState({
       selectedMeals: selectedMeals
@@ -16,7 +21,7 @@ var App = React.createClass({
 
     $.get("/api/meals", function(data) {
       t.setState({
-        meals: data 
+        meals: data
       });
     });
   },
@@ -33,7 +38,7 @@ var App = React.createClass({
   },
 
   render: function() {
-    return ( 
+    return (
       <section>
         <MealPicker onMealToggle={this.didToggleMeal} meals={this.state.meals} />
         <ShoppingList meals={this.state.selectedMeals} />
