@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def show
-    @meals = "{'meals':[{'id':1, 'name':'Sausages'}, {'id':2, 'name':'Butter Chicken'}]}"
+    @meals = Meal.all
   end
 end
