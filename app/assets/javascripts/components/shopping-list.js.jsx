@@ -1,11 +1,11 @@
 var ShoppingList = React.createClass({
 
-  render: function() {    
+  render: function() {
     var t = this,
-        meals = []; 
+        meals = [];
 
     this.props.meals.forEach(function(meal, index) {
-      meals.push(<h1 key={index}>{meal.name}</h1>)
+      meals.push(<MealRow key={index} meal={meal} />)
     });
 
     return (
