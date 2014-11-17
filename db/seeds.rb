@@ -6,5 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 5.times do
-  Meal.create(name: Faker::Name.name)
+  meal = Meal.create(name: Faker::Name.name)
+  (2..5).to_a.sample.times do
+    Ingredient.create(name: Faker::Name.name, meal: meal)
+  end
 end
