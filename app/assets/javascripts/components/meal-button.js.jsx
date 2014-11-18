@@ -2,7 +2,7 @@ var MealButton = React.createClass({
 
   render: function() {
     return (
-      <button onClick={this.props.onToggle}>{this.props.name}</button>
+      <button onClick={this.props.onSelect}>{this.props.name}</button>
     );
   }
 });

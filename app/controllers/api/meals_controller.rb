@@ -22,11 +22,8 @@ class API::MealsController < ApplicationController
 private
 
   def meal_params
-    json_params = ActionController::Parameters.new( ActiveSupport::JSON.decode(params[:meal]) )
-    json_params.permit(permitted_meal_params)
-  end
-
-  def permitted_job_params
-    [:name, ingredients_attributes: [:name]]
+    params[:meal].permit(
+      :name, ingredients_attributes: [:name]
+    )
   end
 end

@@ -1,15 +1,30 @@
 var App = React.createClass({
 
-  didToggleMeal: function(index) {
+  didCreateMeal: function(data) {
+    var meals = this.state.meals;
+    meals.push(data.meal);
+
+    this.setState({
+      meals: meals
+    });
+  },
+
+  didRemoveMeal: function(index) {
+    var selectedMeal = this.state.selectedMeals[index];
+    var selectedMeals = this.state.selectedMeals;
+
+    selectedMeals.splice(selectedMeals.indexOf(selectedMeal), 1);
+
+    this.setState({
+      selectedMeals: selectedMeals
+    });
+  },
+
+  didSelectMeal: function(index) {
     var selectedMeal = this.state.meals[index];
     var selectedMeals = this.state.selectedMeals;
-    var index = selectedMeals.indexOf(selectedMeal);
 
-    if (index > -1) {
-      selectedMeals.splice(index, 1)
-    } else {
-      selectedMeals.push(selectedMeal);
-    }
+    selectedMeals.push(selectedMeal);
 
     this.setState({
       selectedMeals: selectedMeals
@@ -40,8 +55,9 @@ var App = React.createClass({
   render: function() {
     return (
       <section>
-        <MealPicker onMealToggle={this.didToggleMeal} meals={this.state.meals} />
-        <ShoppingList meals={this.state.selectedMeals} />
+        <MealPicker onMealSelect={this.didSelectMeal} meals={this.state.meals} />
+        <ShoppingList onMealRemove={this.didRemoveMeal} meals={this.state.selectedMeals} />
+        <MealForm onCreateMeal={this.didCreateMeal} />
       </section>
     )
   }

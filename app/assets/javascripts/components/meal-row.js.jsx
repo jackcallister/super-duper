@@ -13,6 +13,7 @@ var MealRow = React.createClass({
         <ul>
           {ingredients}
         </ul>
+        <button onClick={this.props.onRemove}>Remove</button>
       </div>
     );
   }
