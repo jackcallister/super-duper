@@ -60,7 +60,6 @@ var MealForm = React.createClass({
           <form ref="form" onSubmit={this.createMeal}>
             <input type="text" ref="meal-name" placeholder="Meal name" />
             <input type="text" ref="ingredient-name" placeholder="Ingredient" />
-
             <input type="submit" value="Add Meal"/>
           </form>
         </div>
