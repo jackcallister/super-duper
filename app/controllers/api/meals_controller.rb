@@ -1,6 +1,6 @@
 class API::MealsController < ApplicationController
   def index
-    render json: Meal.all, each_serializer: MealSerializer, root: false
+    render json: Meal.includes(:ingredients), each_serializer: MealSerializer, root: false
   end
 
   def create
