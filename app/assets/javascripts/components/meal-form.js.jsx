@@ -25,39 +25,61 @@ var MealForm = React.createClass({
       }.bind(this)
     });
 
+    this.clearForm();
+    this.didToggle();
+  },
+
+  clearForm: function() {
+    var t = this;
     this.refs["meal-name"].getDOMNode().value = "";
     this.state.ingredients.forEach(function(ingredient, index) {
       t.refs["ingredient-name-" + index].getDOMNode().value = "";
     });
-    
-    this.didToggle();
   },
 
   didToggle: function(e) {
     this.setState({
       visible: !this.state.visible
+    }, function() {
+      if (!this.state.visible) {
+        this.clearForm();
+        this.replaceState(this.getInitialState());
+      }
     });
   },
 
-  getInitialState: function() {
-    return {
-      visible: false,
-      ingredients: [this.defaultIngredient()]
-    };
-  },
-
-  defaultIngredient: function() {
-    return { name: "" }
+  toggleAddButton: function(event) {
+    if (event.target.value != "") {
+      this.setState({
+        disableIngredientButton: false
+      });
+    } else {
+      this.setState({
+        disableIngredientButton: true
+      });
+    }
   },
 
   addIngredientField: function(e) {
     e.preventDefault();
     var ingredients = this.state.ingredients;
     ingredients.push(this.defaultIngredient());
-    
+
     this.setState({
       ingredients: ingredients
     });
+  },
+
+  defaultIngredient: function() {
+    return { name: "" }
+  },
+
+  getInitialState: function() {
+    return {
+      visible: false,
+      ingredients: [this.defaultIngredient()],
+      disableIngredientButton: true
+    };
   },
 
   componentDidMount: function() {
@@ -69,12 +91,30 @@ var MealForm = React.createClass({
   },
 
   render: function() {
-    var visibleKlass = this.state.visible ? "modal-active" : "modal-inactive";
-   
-    var ingredientInputs = this.state.ingredients.map(function(ingredient, index) {
-      var ref = "ingredient-name-" + index;
-      return (<input type="text" ref={ref} placeholder="Ingredient" key={index} />);
+    var t = this,
+        numberOfIngredients = this.state.ingredients.length;
+
+    var ingredientFields = this.state.ingredients.map(function(ingredient, index) {
+      var addButton,
+          ref = "ingredient-name-" + index,
+          key = "ingredient-field-" + index,
+          isLastField = index == numberOfIngredients - 1,
+          toggleAddButton;
+
+      if (isLastField) {
+        addButton = <button onClick={t.addIngredientField} disabled={t.state.disableIngredientButton}>Add ingredient</button>;
+        toggleAddButton = t.toggleAddButton;
+      }
+
+      return (
+        <div key={key}>
+          <input type="text" ref={ref} placeholder="Ingredient" onChange={toggleAddButton} />
+          {addButton}
+        </div>
+      );
     });
+
+    var visibleKlass = this.state.visible ? "modal-active" : "modal-inactive";
 
     return (
       <div>
@@ -82,8 +122,7 @@ var MealForm = React.createClass({
         <div ref="modal" id="modal" className={visibleKlass}>
           <form ref="form" onSubmit={this.createMeal}>
             <input type="text" ref="meal-name" placeholder="Meal name" />
-            {ingredientInputs}
-            <button onClick={this.addIngredientField} disable>Add ingredient</button>
+            {ingredientFields}
             <input type="submit" value="Add Meal"/>
           </form>
         </div>
