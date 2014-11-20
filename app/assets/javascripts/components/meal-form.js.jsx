@@ -67,7 +67,12 @@ var MealForm = React.createClass({
 
     this.setState({
       ingredients: ingredients
-    });
+    }, this.focusIngredientField(this.state.ingredients.length - 1));
+  },
+
+  focusIngredientField: function(index) {
+    // Trigger this after the nodes render.
+    // this.refs["ingredient-name-" + index].getDOMNode.focus();
   },
 
   defaultIngredient: function() {
