@@ -2,7 +2,7 @@
 
 This is both an experiment to explore React JS and to scratch own itch. Every Sunday I struggle to come up with a supermarket list of meals. Super Duper is very small single page application to solve this problem. 
 
-[Img](http://i.imgur.com/rkFIr6c.gif?1)
+![Super Duper](http://i.imgur.com/rkFIr6c.gif?1 "Super Duper")
 
 # How use
 
