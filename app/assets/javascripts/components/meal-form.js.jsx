@@ -41,6 +41,7 @@ var MealForm = React.createClass({
     this.setState({
       visible: !this.state.visible
     }, function() {
+      this.refs.mealName.getDOMNode().focus();
       if (!this.state.visible) {
         this.clearForm();
         this.replaceState(this.getInitialState());
@@ -66,13 +67,9 @@ var MealForm = React.createClass({
     ingredients.push(this.defaultIngredient());
 
     this.setState({
-      ingredients: ingredients
-    }, this.focusIngredientField(this.state.ingredients.length - 1));
-  },
-
-  focusIngredientField: function(index) {
-    // Trigger this after the nodes render.
-    // this.refs["ingredient-name-" + index].getDOMNode.focus();
+      ingredients: ingredients,
+      disableIngredientButton: true
+    });
   },
 
   defaultIngredient: function() {
@@ -105,15 +102,17 @@ var MealForm = React.createClass({
           key = "ingredient-field-" + index,
           isLastField = index == numberOfIngredients - 1,
           toggleAddButton;
+          focus;
 
       if (isLastField) {
         addButton = <button onClick={t.addIngredientField} disabled={t.state.disableIngredientButton}>Add ingredient</button>;
         toggleAddButton = t.toggleAddButton;
+        focus = true;
       }
 
       return (
         <div key={key}>
-          <input type="text" ref={ref} placeholder="Ingredient" onChange={toggleAddButton} />
+          <input type="text" ref={ref} placeholder="Ingredient" onChange={toggleAddButton} autoFocus={focus} />
           {addButton}
         </div>
       );
@@ -126,9 +125,9 @@ var MealForm = React.createClass({
         <div id="modal-overlay" className={visibleKlass} onClick={this.didToggle}></div>
         <div ref="modal" id="modal" className={visibleKlass}>
           <form ref="form" onSubmit={this.createMeal}>
-            <input type="text" ref="meal-name" placeholder="Meal name" />
+            <input type="text" ref="mealName" placeholder="Meal name" />
             {ingredientFields}
-            <input type="submit" value="Add Meal"/>
+            <input type="submit" value="Add Meal" />
           </form>
         </div>
       </div>
