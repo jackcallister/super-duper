@@ -1,3 +1,6 @@
+var React = require('react/addons'),
+    MealRow = require('./meal-row.js.jsx');
+
 var ShoppingList = React.createClass({
 
   didRemoveMeal: function(index) {
@@ -20,3 +23,5 @@ var ShoppingList = React.createClass({
     );
   }
 });
+
+module.exports = ShoppingList;

@@ -1,3 +1,5 @@
+var React = require('react/addons');
+
 var MealRow = React.createClass({
 
   render: function() {
@@ -18,3 +20,5 @@ var MealRow = React.createClass({
     );
   }
 });
+
+module.exports = MealRow;

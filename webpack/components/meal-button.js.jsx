@@ -1,3 +1,5 @@
+var React = require('react/addons');
+
 var MealButton = React.createClass({
 
   render: function() {
@@ -6,3 +8,5 @@ var MealButton = React.createClass({
     );
   }
 });
+
+module.exports = MealButton;

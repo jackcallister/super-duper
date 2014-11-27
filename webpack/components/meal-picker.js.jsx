@@ -1,3 +1,6 @@
+var React = require('react/addons'),
+    MealButton = require('./meal-button.js.jsx');
+
 var MealPicker = React.createClass({
 
   didSelectMeal: function(index) {
@@ -26,3 +29,5 @@ var MealPicker = React.createClass({
     );
   }
 });
+
+module.exports = MealPicker;

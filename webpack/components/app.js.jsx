@@ -1,3 +1,8 @@
+var React = require('react/addons'),
+    MealPicker = require('./meal-picker.js.jsx'),
+    ShoppingList = require('./shopping-list.js.jsx'),
+    MealForm = require('./meal-form.js.jsx');
+
 var App = React.createClass({
 
   didCreateMeal: function(data) {
@@ -62,3 +67,5 @@ var App = React.createClass({
     )
   }
 });
+
+module.exports = App;

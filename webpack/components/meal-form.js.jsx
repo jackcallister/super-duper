@@ -1,3 +1,5 @@
+var React = require('react/addons');
+
 var MealForm = React.createClass({
 
   createMeal: function(e) {
@@ -134,3 +136,5 @@ var MealForm = React.createClass({
     );
   }
 });
+
+module.exports = MealForm;
