@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(2),
+	var React = __webpack_require__(6),
 	    App = __webpack_require__(1);
 
 	document.addEventListener('DOMContentLoaded', function() {
@@ -56,10 +56,10 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(3),
-	    MealPicker = __webpack_require__(4),
-	    ShoppingList = __webpack_require__(5),
-	    MealForm = __webpack_require__(6);
+	var React = __webpack_require__(2),
+	    MealPicker = __webpack_require__(3),
+	    ShoppingList = __webpack_require__(4),
+	    MealForm = __webpack_require__(5);
 
 	var App = React.createClass({displayName: 'App',
 
@@ -139,15 +139,8 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(8);
-
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(3),
-	    MealButton = __webpack_require__(9);
+	var React = __webpack_require__(2),
+	    MealButton = __webpack_require__(8);
 
 	var MealPicker = React.createClass({displayName: 'MealPicker',
 
@@ -182,11 +175,11 @@
 
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(3),
-	    MealRow = __webpack_require__(10);
+	var React = __webpack_require__(2),
+	    MealRow = __webpack_require__(9);
 
 	var ShoppingList = React.createClass({displayName: 'ShoppingList',
 
@@ -215,19 +208,19 @@
 
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(3);
+	var React = __webpack_require__(2);
 
 	var MealForm = React.createClass({displayName: 'MealForm',
 
 	  createMeal: function(e) {
 	    e.preventDefault();
 	    var t = this;
-	    var mealName = this.refs["meal-name"].getDOMNode().value.trim();
+	    var mealName = this.refs["mealName"].getDOMNode().value.trim();
 	    var ingredientAttributes = this.state.ingredients.map(function(ingredient, index) {
-	      return { name: t.refs["ingredient-name-" + index].getDOMNode().value.trim() }
+	      return { name: t.refs["ingredientName" + index].getDOMNode().value.trim() }
 	    });
 
 	    var formData = {
@@ -253,9 +246,9 @@
 
 	  clearForm: function() {
 	    var t = this;
-	    this.refs["meal-name"].getDOMNode().value = "";
+	    this.refs["mealName"].getDOMNode().value = "";
 	    this.state.ingredients.forEach(function(ingredient, index) {
-	      t.refs["ingredient-name-" + index].getDOMNode().value = "";
+	      t.refs["ingredientName" + index].getDOMNode().value = "";
 	    });
 	  },
 
@@ -320,8 +313,8 @@
 
 	    var ingredientFields = this.state.ingredients.map(function(ingredient, index) {
 	      var addButton,
-	          ref = "ingredient-name-" + index,
-	          key = "ingredient-field-" + index,
+	          ref = "ingredientName" + index,
+	          key = "ingredientField" + index,
 	          isLastField = index == numberOfIngredients - 1,
 	          toggleAddButton;
 	          focus;
@@ -361,7 +354,119 @@
 
 
 /***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(10);
+
+
+/***/ },
 /* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2014, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactWithAddons
+	 */
+
+	/**
+	 * This module exists purely in the open source project, and is meant as a way
+	 * to create a separate standalone build of React. This build has "addons", or
+	 * functionality we've built and think might be useful but doesn't have a good
+	 * place to live inside React core.
+	 */
+
+	"use strict";
+
+	var LinkedStateMixin = __webpack_require__(11);
+	var React = __webpack_require__(10);
+	var ReactComponentWithPureRenderMixin =
+	  __webpack_require__(12);
+	var ReactCSSTransitionGroup = __webpack_require__(13);
+	var ReactTransitionGroup = __webpack_require__(14);
+	var ReactUpdates = __webpack_require__(15);
+
+	var cx = __webpack_require__(16);
+	var cloneWithProps = __webpack_require__(17);
+	var update = __webpack_require__(18);
+
+	React.addons = {
+	  CSSTransitionGroup: ReactCSSTransitionGroup,
+	  LinkedStateMixin: LinkedStateMixin,
+	  PureRenderMixin: ReactComponentWithPureRenderMixin,
+	  TransitionGroup: ReactTransitionGroup,
+
+	  batchedUpdates: ReactUpdates.batchedUpdates,
+	  classSet: cx,
+	  cloneWithProps: cloneWithProps,
+	  update: update
+	};
+
+	if ("production" !== process.env.NODE_ENV) {
+	  React.addons.Perf = __webpack_require__(19);
+	  React.addons.TestUtils = __webpack_require__(20);
+	}
+
+	module.exports = React;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+
+	var MealButton = React.createClass({displayName: 'MealButton',
+
+	  render: function() {
+	    return (
+	      React.createElement("button", {onClick: this.props.onSelect}, this.props.name)
+	    );
+	  }
+	});
+
+	module.exports = MealButton;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+
+	var MealRow = React.createClass({displayName: 'MealRow',
+
+	  render: function() {
+	    var ingredients = [];
+
+	    this.props.meal.ingredients.forEach(function(ingredient, index) {
+	      ingredients.push( React.createElement("li", {key: index}, ingredient.name) )
+	    });
+
+	    return (
+	      React.createElement("div", null, 
+	        React.createElement("h3", null, this.props.meal.name), 
+	        React.createElement("ul", null, 
+	          ingredients
+	        ), 
+	        React.createElement("button", {onClick: this.props.onRemove}, "Remove")
+	      )
+	    );
+	  }
+	});
+
+	module.exports = MealRow;
+
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -552,111 +657,6 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactWithAddons
-	 */
-
-	/**
-	 * This module exists purely in the open source project, and is meant as a way
-	 * to create a separate standalone build of React. This build has "addons", or
-	 * functionality we've built and think might be useful but doesn't have a good
-	 * place to live inside React core.
-	 */
-
-	"use strict";
-
-	var LinkedStateMixin = __webpack_require__(11);
-	var React = __webpack_require__(7);
-	var ReactComponentWithPureRenderMixin =
-	  __webpack_require__(12);
-	var ReactCSSTransitionGroup = __webpack_require__(13);
-	var ReactTransitionGroup = __webpack_require__(14);
-	var ReactUpdates = __webpack_require__(15);
-
-	var cx = __webpack_require__(16);
-	var cloneWithProps = __webpack_require__(17);
-	var update = __webpack_require__(18);
-
-	React.addons = {
-	  CSSTransitionGroup: ReactCSSTransitionGroup,
-	  LinkedStateMixin: LinkedStateMixin,
-	  PureRenderMixin: ReactComponentWithPureRenderMixin,
-	  TransitionGroup: ReactTransitionGroup,
-
-	  batchedUpdates: ReactUpdates.batchedUpdates,
-	  classSet: cx,
-	  cloneWithProps: cloneWithProps,
-	  update: update
-	};
-
-	if ("production" !== process.env.NODE_ENV) {
-	  React.addons.Perf = __webpack_require__(19);
-	  React.addons.TestUtils = __webpack_require__(20);
-	}
-
-	module.exports = React;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(3);
-
-	var MealButton = React.createClass({displayName: 'MealButton',
-
-	  render: function() {
-	    return (
-	      React.createElement("button", {onClick: this.props.onSelect}, this.props.name)
-	    );
-	  }
-	});
-
-	module.exports = MealButton;
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(3);
-
-	var MealRow = React.createClass({displayName: 'MealRow',
-
-	  render: function() {
-	    var ingredients = [];
-
-	    this.props.meal.ingredients.forEach(function(ingredient, index) {
-	      ingredients.push( React.createElement("li", {key: index}, ingredient.name) )
-	    });
-
-	    return (
-	      React.createElement("div", null, 
-	        React.createElement("h3", null, this.props.meal.name), 
-	        React.createElement("ul", null, 
-	          ingredients
-	        ), 
-	        React.createElement("button", {onClick: this.props.onRemove}, "Remove")
-	      )
-	    );
-	  }
-	});
-
-	module.exports = MealRow;
-
-
-/***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -674,8 +674,8 @@
 
 	"use strict";
 
-	var ReactLink = __webpack_require__(47);
-	var ReactStateSetters = __webpack_require__(48);
+	var ReactLink = __webpack_require__(46);
+	var ReactStateSetters = __webpack_require__(47);
 
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -718,7 +718,7 @@
 
 	"use strict";
 
-	var shallowEqual = __webpack_require__(46);
+	var shallowEqual = __webpack_require__(48);
 
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -772,7 +772,7 @@
 
 	"use strict";
 
-	var React = __webpack_require__(7);
+	var React = __webpack_require__(10);
 
 	var assign = __webpack_require__(41);
 
@@ -842,7 +842,7 @@
 
 	"use strict";
 
-	var React = __webpack_require__(7);
+	var React = __webpack_require__(10);
 	var ReactTransitionChildMapping = __webpack_require__(50);
 
 	var assign = __webpack_require__(41);
@@ -1871,7 +1871,7 @@
 	var EventConstants = __webpack_require__(62);
 	var EventPluginHub = __webpack_require__(63);
 	var EventPropagators = __webpack_require__(64);
-	var React = __webpack_require__(7);
+	var React = __webpack_require__(10);
 	var ReactElement = __webpack_require__(28);
 	var ReactBrowserEventEmitter = __webpack_require__(65);
 	var ReactMount = __webpack_require__(35);
@@ -8803,54 +8803,6 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 * @providesModule shallowEqual
-	 */
-
-	"use strict";
-
-	/**
-	 * Performs equality by iterating through keys on an object and returning
-	 * false when any key has values which are not strictly equal between
-	 * objA and objB. Returns true when the values of all keys are strictly equal.
-	 *
-	 * @return {boolean}
-	 */
-	function shallowEqual(objA, objB) {
-	  if (objA === objB) {
-	    return true;
-	  }
-	  var key;
-	  // Test for A's keys different from B.
-	  for (key in objA) {
-	    if (objA.hasOwnProperty(key) &&
-	        (!objB.hasOwnProperty(key) || objA[key] !== objB[key])) {
-	      return false;
-	    }
-	  }
-	  // Test for B's keys missing from A.
-	  for (key in objB) {
-	    if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
-	      return false;
-	    }
-	  }
-	  return true;
-	}
-
-	module.exports = shallowEqual;
-
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
 	 * @providesModule ReactLink
 	 * @typechecks static-only
 	 */
@@ -8880,7 +8832,7 @@
 	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
 	 */
 
-	var React = __webpack_require__(7);
+	var React = __webpack_require__(10);
 
 	/**
 	 * @param {*} value current value of the link
@@ -8917,7 +8869,7 @@
 
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9027,6 +8979,54 @@
 
 
 /***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2014, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule shallowEqual
+	 */
+
+	"use strict";
+
+	/**
+	 * Performs equality by iterating through keys on an object and returning
+	 * false when any key has values which are not strictly equal between
+	 * objA and objB. Returns true when the values of all keys are strictly equal.
+	 *
+	 * @return {boolean}
+	 */
+	function shallowEqual(objA, objB) {
+	  if (objA === objB) {
+	    return true;
+	  }
+	  var key;
+	  // Test for A's keys different from B.
+	  for (key in objA) {
+	    if (objA.hasOwnProperty(key) &&
+	        (!objB.hasOwnProperty(key) || objA[key] !== objB[key])) {
+	      return false;
+	    }
+	  }
+	  // Test for B's keys missing from A.
+	  for (key in objB) {
+	    if (objB.hasOwnProperty(key) && !objA.hasOwnProperty(key)) {
+	      return false;
+	    }
+	  }
+	  return true;
+	}
+
+	module.exports = shallowEqual;
+
+
+/***/ },
 /* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -9044,7 +9044,7 @@
 
 	"use strict";
 
-	var React = __webpack_require__(7);
+	var React = __webpack_require__(10);
 
 	var CSSCore = __webpack_require__(114);
 	var ReactTransitionEvents = __webpack_require__(115);
@@ -15370,7 +15370,7 @@
 	var getActiveElement = __webpack_require__(144);
 	var isTextInputElement = __webpack_require__(131);
 	var keyOf = __webpack_require__(58);
-	var shallowEqual = __webpack_require__(46);
+	var shallowEqual = __webpack_require__(48);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -18116,7 +18116,7 @@
 	var SyntheticUIEvent = __webpack_require__(150);
 	var ViewportMetrics = __webpack_require__(122);
 
-	var getEventModifierState = __webpack_require__(160);
+	var getEventModifierState = __webpack_require__(161);
 
 	/**
 	 * @interface MouseEvent
@@ -18203,7 +18203,7 @@
 	"use strict";
 
 	var CSSPropertyOperations = __webpack_require__(80);
-	var DOMChildrenOperations = __webpack_require__(161);
+	var DOMChildrenOperations = __webpack_require__(160);
 	var DOMPropertyOperations = __webpack_require__(21);
 	var ReactMount = __webpack_require__(35);
 	var ReactPerf = __webpack_require__(37);
@@ -19161,7 +19161,7 @@
 
 	var getEventCharCode = __webpack_require__(152);
 	var getEventKey = __webpack_require__(162);
-	var getEventModifierState = __webpack_require__(160);
+	var getEventModifierState = __webpack_require__(161);
 
 	/**
 	 * @interface KeyboardEvent
@@ -19293,7 +19293,7 @@
 
 	var SyntheticUIEvent = __webpack_require__(150);
 
-	var getEventModifierState = __webpack_require__(160);
+	var getEventModifierState = __webpack_require__(161);
 
 	/**
 	 * @interface TouchEvent
@@ -19962,57 +19962,6 @@
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Copyright 2013 Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule getEventModifierState
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	/**
-	 * Translation from modifier key to the associated property in the event.
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#keys-Modifiers
-	 */
-
-	var modifierKeyToProp = {
-	  'Alt': 'altKey',
-	  'Control': 'ctrlKey',
-	  'Meta': 'metaKey',
-	  'Shift': 'shiftKey'
-	};
-
-	// IE8 does not implement getModifierState so we simply map it to the only
-	// modifier keys exposed by the event itself, does not support Lock-keys.
-	// Currently, all major browsers except Chrome seems to support Lock-keys.
-	function modifierStateGetter(keyArg) {
-	  /*jshint validthis:true */
-	  var syntheticEvent = this;
-	  var nativeEvent = syntheticEvent.nativeEvent;
-	  if (nativeEvent.getModifierState) {
-	    return nativeEvent.getModifierState(keyArg);
-	  }
-	  var keyProp = modifierKeyToProp[keyArg];
-	  return keyProp ? !!nativeEvent[keyProp] : false;
-	}
-
-	function getEventModifierState(nativeEvent) {
-	  return modifierStateGetter;
-	}
-
-	module.exports = getEventModifierState;
-
-
-/***/ },
-/* 161 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-2014, Facebook, Inc.
 	 * All rights reserved.
@@ -20186,6 +20135,57 @@
 	module.exports = DOMChildrenOperations;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013 Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule getEventModifierState
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	/**
+	 * Translation from modifier key to the associated property in the event.
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#keys-Modifiers
+	 */
+
+	var modifierKeyToProp = {
+	  'Alt': 'altKey',
+	  'Control': 'ctrlKey',
+	  'Meta': 'metaKey',
+	  'Shift': 'shiftKey'
+	};
+
+	// IE8 does not implement getModifierState so we simply map it to the only
+	// modifier keys exposed by the event itself, does not support Lock-keys.
+	// Currently, all major browsers except Chrome seems to support Lock-keys.
+	function modifierStateGetter(keyArg) {
+	  /*jshint validthis:true */
+	  var syntheticEvent = this;
+	  var nativeEvent = syntheticEvent.nativeEvent;
+	  if (nativeEvent.getModifierState) {
+	    return nativeEvent.getModifierState(keyArg);
+	  }
+	  var keyProp = modifierKeyToProp[keyArg];
+	  return keyProp ? !!nativeEvent[keyProp] : false;
+	}
+
+	function getEventModifierState(nativeEvent) {
+	  return modifierStateGetter;
+	}
+
+	module.exports = getEventModifierState;
+
 
 /***/ },
 /* 162 */
