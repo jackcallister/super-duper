@@ -5,9 +5,9 @@ var MealForm = React.createClass({
   createMeal: function(e) {
     e.preventDefault();
     var t = this;
-    var mealName = this.refs["meal-name"].getDOMNode().value.trim();
+    var mealName = this.refs["mealName"].getDOMNode().value.trim();
     var ingredientAttributes = this.state.ingredients.map(function(ingredient, index) {
-      return { name: t.refs["ingredient-name-" + index].getDOMNode().value.trim() }
+      return { name: t.refs["ingredientName" + index].getDOMNode().value.trim() }
     });
 
     var formData = {
@@ -33,9 +33,9 @@ var MealForm = React.createClass({
 
   clearForm: function() {
     var t = this;
-    this.refs["meal-name"].getDOMNode().value = "";
+    this.refs["mealName"].getDOMNode().value = "";
     this.state.ingredients.forEach(function(ingredient, index) {
-      t.refs["ingredient-name-" + index].getDOMNode().value = "";
+      t.refs["ingredientName" + index].getDOMNode().value = "";
     });
   },
 
@@ -100,8 +100,8 @@ var MealForm = React.createClass({
 
     var ingredientFields = this.state.ingredients.map(function(ingredient, index) {
       var addButton,
-          ref = "ingredient-name-" + index,
-          key = "ingredient-field-" + index,
+          ref = "ingredientName" + index,
+          key = "ingredientField" + index,
           isLastField = index == numberOfIngredients - 1,
           toggleAddButton;
           focus;
