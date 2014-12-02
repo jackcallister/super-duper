@@ -13,3 +13,15 @@
  *= require_tree .
  *= require_self
  */
+
+.pop-enter {
+  opacity: 0.01;
+  transform: translate3d(0, -100%, 0);*/
+  transition: opacity .5s ease-in;
+  transition: transform .5s ease-in;
+}
+
+.pop-enter.pop-enter-active {
+  opacity: 1;
+  transform: none;
+}

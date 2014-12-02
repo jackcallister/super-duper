@@ -6,7 +6,7 @@ var MealRow = React.createClass({
     var ingredients = [];
 
     this.props.meal.ingredients.forEach(function(ingredient, index) {
-      ingredients.push( <li key={index}>{ingredient.name}</li> )
+      ingredients.push(<li key={index}>{ingredient.name}</li>)
     });
 
     return (

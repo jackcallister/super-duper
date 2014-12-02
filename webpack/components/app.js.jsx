@@ -6,11 +6,8 @@ var React = require('react/addons'),
 var App = React.createClass({
 
   didCreateMeal: function(data) {
-    var meals = this.state.meals;
-    meals.push(data.meal);
-
     this.setState({
-      meals: meals
+      meals: this.state.meals.concat(data.meal)
     });
   },
 
@@ -26,24 +23,17 @@ var App = React.createClass({
   },
 
   didSelectMeal: function(index) {
-    var selectedMeal = this.state.meals[index];
-    var selectedMeals = this.state.selectedMeals;
-
-    selectedMeals.push(selectedMeal);
-
     this.setState({
-      selectedMeals: selectedMeals
+      selectedMeals: this.state.selectedMeals.concat(this.state.meals[index])
     });
   },
 
   fetchMeals: function() {
-    var t = this;
-
     $.get("/api/meals", function(data) {
-      t.setState({
+      this.setState({
         meals: data
       });
-    });
+    }.bind(this));
   },
 
   getInitialState: function() {

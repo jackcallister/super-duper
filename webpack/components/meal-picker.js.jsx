@@ -13,12 +13,11 @@ var MealPicker = React.createClass({
   },
 
   render: function() {
-    var t = this,
-        mealButtons = [];
+    var mealButtons = [];
 
     this.props.meals.forEach(function(meal, index) {
-      mealButtons.push(<MealButton onSelect={t.didSelectMeal.bind(t, index)} name={meal.name} key={index} />)
-    });
+      mealButtons.push(<MealButton onSelect={this.didSelectMeal.bind(this, index)} name={meal.name} key={index} />)
+    }.bind(this));
 
     return (
       <div>

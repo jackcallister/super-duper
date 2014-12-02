@@ -4,11 +4,12 @@ var MealForm = React.createClass({
 
   createMeal: function(e) {
     e.preventDefault();
-    var t = this;
+
     var mealName = this.refs["mealName"].getDOMNode().value.trim();
+    
     var ingredientAttributes = this.state.ingredients.map(function(ingredient, index) {
-      return { name: t.refs["ingredientName" + index].getDOMNode().value.trim() }
-    });
+      return { name: this.refs["ingredientName" + index].getDOMNode().value.trim() }
+    }.bind(this));
 
     var formData = {
       meal: {
@@ -32,11 +33,10 @@ var MealForm = React.createClass({
   },
 
   clearForm: function() {
-    var t = this;
     this.refs["mealName"].getDOMNode().value = "";
     this.state.ingredients.forEach(function(ingredient, index) {
-      t.refs["ingredientName" + index].getDOMNode().value = "";
-    });
+      this.refs["ingredientName" + index].getDOMNode().value = "";
+    }.bind(this));
   },
 
   didToggle: function(e) {
