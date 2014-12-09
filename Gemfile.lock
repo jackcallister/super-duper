@@ -51,6 +51,8 @@ GEM
     execjs (2.2.2)
     faker (1.4.3)
       i18n (~> 0.5)
+    flexbox-sass (0.0.1)
+      railties
     hike (1.2.3)
     i18n (0.6.11)
     jquery-rails (3.1.2)
@@ -133,6 +135,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   faker
+  flexbox-sass
   jquery-rails
   pg
   pry

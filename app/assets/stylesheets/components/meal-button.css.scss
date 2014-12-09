@@ -1,0 +1,31 @@
+@import 'flexbox';
+@import 'config/colours';
+
+.meal-button-wrapper {
+  width: 120px;
+  height: 120px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  background: #FBFBFB;
+  float: left;
+}
+
+.meal-button {
+  @include flexbox();
+  @include align-items(center);
+
+  border: 1px solid #D5D5D5;
+  height: 100px;
+
+  span {
+    @include flex-grow(1); 
+    text-align: center;
+    margin-top: -1px;
+  }
+}
+
+.meal-button-bar {
+  height: 20px;
+  width: 100%;
+  background: $blue;
+}

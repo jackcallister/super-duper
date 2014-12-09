@@ -1,0 +1,10 @@
+@import 'flexbox';
+
+.app {
+  @include flexbox();
+}
+
+.meal-picker, .shopping-list {
+  padding: 2rem;
+  width: 50%;
+}
