@@ -4,7 +4,12 @@ var MealButton = React.createClass({
 
   render: function() {
     return (
-      <button onClick={this.props.onSelect}>{this.props.name}</button>
+      <div className="meal-button-wrapper" onClick={this.props.onSelect}>
+        <div className="meal-button-bar"></div>
+        <div className="meal-button">
+          <span>{this.props.name}</span>
+        </div>
+      </div>
     );
   }
 });

@@ -1,7 +1,5 @@
-var React = require('react/addons'),
+var React = require('react'),
     MealRow = require('./meal-row.js.jsx');
-
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var ShoppingList = React.createClass({
 
@@ -17,11 +15,9 @@ var ShoppingList = React.createClass({
     }.bind(this));
 
     return (
-      <div>
+      <div className="shopping-list">
         <h1>Shopping List</h1>
-        <ReactCSSTransitionGroup transitionLeave={false} transitionName="pop">
-          {meals}
-        </ReactCSSTransitionGroup>
+        {meals}
       </div>
     );
   }

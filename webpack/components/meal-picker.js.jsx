@@ -20,7 +20,7 @@ var MealPicker = React.createClass({
     }.bind(this));
 
     return (
-      <div>
+      <div className="meal-picker">
         <h1>Meal Picker</h1>
         {mealButtons}
         <button onClick={this.toggleModal}>Add</button>
