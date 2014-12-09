@@ -1,33 +1,37 @@
-var React = require('react/addons');
+var React = require('react/addons'),
+    Meal = require('../factories/meal.js');
 
 var MealForm = React.createClass({
 
-  createMeal: function(e) {
-    e.preventDefault();
-
+  getMealFromForm: function() {
     var mealName = this.refs["mealName"].getDOMNode().value.trim();
     
     var ingredientAttributes = this.state.ingredients.map(function(ingredient, index) {
       return { name: this.refs["ingredientName" + index].getDOMNode().value.trim() }
     }.bind(this));
 
-    var formData = {
+    var data = {
       meal: {
         name: mealName,
         ingredients_attributes: ingredientAttributes
       }
     }
 
-    $.ajax({
-      data: formData,
-      url: "/api/meals",
-      type: "POST",
-      dataType: "json",
-      success: function(data) {
-        this.props.onCreateMeal(data);
-      }.bind(this)
-    });
+    return data;
+  },
 
+  createMeal: function(e) {
+    e.preventDefault();   
+
+    var meal = this.getMealFromForm();
+    
+    Meal.create(meal, function(response) {
+      this.afterCreateMeal(response);  
+    }.bind(this));
+  },
+
+  afterCreateMeal: function(meal) {
+    this.props.onCreateMeal(meal);
     this.clearForm();
     this.didToggle();
   },

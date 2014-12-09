@@ -1,7 +1,8 @@
 var React = require('react/addons'),
     MealPicker = require('./meal-picker.js.jsx'),
     ShoppingList = require('./shopping-list.js.jsx'),
-    MealForm = require('./meal-form.js.jsx');
+    MealForm = require('./meal-form.js.jsx'),
+    Meal = require('../factories/meal.js');
 
 var App = React.createClass({
 
@@ -28,14 +29,6 @@ var App = React.createClass({
     });
   },
 
-  fetchMeals: function() {
-    $.get("/api/meals", function(data) {
-      this.setState({
-        meals: data
-      });
-    }.bind(this));
-  },
-
   getInitialState: function() {
     return {
       meals: [],
@@ -44,12 +37,16 @@ var App = React.createClass({
   },
 
   componentDidMount: function() {
-    this.fetchMeals();
+    Meal.all(function(meals) {
+      this.setState({
+        meals: meals
+      });
+    }.bind(this));
   },
 
   render: function() {
     return (
-      <section>
+      <section className="app">
         <MealPicker onMealSelect={this.didSelectMeal} meals={this.state.meals} />
         <ShoppingList onMealRemove={this.didRemoveMeal} meals={this.state.selectedMeals} />
         <MealForm onCreateMeal={this.didCreateMeal} />
