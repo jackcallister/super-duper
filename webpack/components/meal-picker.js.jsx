@@ -7,6 +7,10 @@ var MealPicker = React.createClass({
     this.props.onMealSelect(index);
   },
 
+  didDeleteMeal: function(index) {
+    this.props.onMealDelete(index);
+  },
+
   toggleModal: function() {
     var event = new CustomEvent('toggleModal');
     document.dispatchEvent(event);
@@ -16,7 +20,11 @@ var MealPicker = React.createClass({
     var mealButtons = [];
 
     this.props.meals.forEach(function(meal, index) {
-      mealButtons.push(<MealButton onSelect={this.didSelectMeal.bind(this, index)} name={meal.name} key={index} />)
+      mealButtons.push(
+        <MealButton onSelect={this.didSelectMeal.bind(this, index)}
+                    onDelete={this.didDeleteMeal.bind(this, index)} 
+                    name={meal.name} key={index} />
+      )
     }.bind(this));
 
     return (
