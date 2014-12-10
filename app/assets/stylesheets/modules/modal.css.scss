@@ -1,33 +1,28 @@
-#modal {
-  width: 200px;
-  background: blue;
-  padding: 20px;
-  position: absolute;
+.modal {
+  padding: 2rem;
+  margin: 8rem 0 0 0;
+  background: white;
   z-index: 2;
-
-  &.modal-inactive {
-    display: none;
-  }
-
-  &.modal-active {
-    display: block;
-  }
 }
 
-#modal-overlay {
+.modal-overlay {
   position: fixed;
   height: 100%;
   width: 100%;
-  background: black;
   background: rgba(0,0,0,0.45);
   z-index: 1;
   top: 0;
   left: 0;
-  &.modal-inactive {
+}
+
+.inactive {
+  .modal-overlay, .modal {
     display: none;
   }
+}
 
-  &.modal-active {
+.active {
+  .modal-overlay, .modal {
     display: block;
   }
 }
