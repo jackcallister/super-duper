@@ -1,5 +1,6 @@
 var React = require('react/addons'),
     ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
+    ReactTransitionGroup = React.addons.TransitionGroup,
     MealButton = require('./meal-button.js.jsx');
 
 
@@ -32,7 +33,7 @@ var MealPicker = React.createClass({
     return (
       <div className="meal-picker">
         <h1>Meal Picker</h1>
-        <ReactCSSTransitionGroup transitionName="pop-out" transitionEnter={false}>
+        <ReactCSSTransitionGroup transitionEnter={false} transitionName="pop-out">
           {mealButtons}
         </ReactCSSTransitionGroup>
         <button onClick={this.toggleModal}>Add</button>
