@@ -82,8 +82,9 @@
 	  },
 
 	  didDeleteMeal: function(index) {
-	    var meal = this.state.meals[index];
-	    Meal.destroy(meal.id);
+	    // TEMP DON'T DESTROY
+	    // var meal = this.state.meals[index];
+	    // Meal.destroy(meal.id);
 
 	    this.state.meals.splice(index, 1);
 
@@ -141,7 +142,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2),
+	    ReactCSSTransitionGroup = React.addons.CSSTransitionGroup,
 	    MealButton = __webpack_require__(9);
+
 
 	var MealPicker = React.createClass({displayName: 'MealPicker',
 
@@ -165,14 +168,16 @@
 	      mealButtons.push(
 	        React.createElement(MealButton, {onSelect: this.didSelectMeal.bind(this, index), 
 	                    onDelete: this.didDeleteMeal.bind(this, index), 
-	                    name: meal.name, key: index})
+	                    name: meal.name, key: meal.id})
 	      )
 	    }.bind(this));
 
 	    return (
 	      React.createElement("div", {className: "meal-picker"}, 
 	        React.createElement("h1", null, "Meal Picker"), 
-	        mealButtons, 
+	        React.createElement(ReactCSSTransitionGroup, {transitionName: "pop-out", transitionEnter: false}, 
+	          mealButtons
+	        ), 
 	        React.createElement("button", {onClick: this.toggleModal}, "Add")
 	      )
 	    );

@@ -1,5 +1,6 @@
 @import 'flexbox';
 @import 'config/colours';
+@import 'config/animations';
 
 .meal-button-wrapper {
   width: 120px;
@@ -17,6 +18,7 @@
   border: 1px solid #D5D5D5;
   border-top: 0;
   height: 100px;
+  transition: scale 10s ease-in;
 
   span {
     @include flex-grow(1); 
@@ -47,4 +49,13 @@
   height: 20px;
   width: 100%;
   background: $blue;
+}
+
+.meal-button-wrapper.pop-out-leave {
+  transform: scale3d(1.4, 1.4, 1.4);
+  transition: transform 10s ease-in;
+}
+
+.meal-button-wrapper.pop-out-leave-active {
+  transform: scale3d(0, 0, 0);
 }

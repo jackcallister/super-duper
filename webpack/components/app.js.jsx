@@ -24,8 +24,9 @@ var App = React.createClass({
   },
 
   didDeleteMeal: function(index) {
-    var meal = this.state.meals[index];
-    Meal.destroy(meal.id);
+    // TEMP DON'T DESTROY
+    // var meal = this.state.meals[index];
+    // Meal.destroy(meal.id);
 
     this.state.meals.splice(index, 1);
 
