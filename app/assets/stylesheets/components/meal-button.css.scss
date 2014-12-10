@@ -8,6 +8,7 @@
   margin-right: 20px;
   margin-bottom: 20px;
   background: #FBFBFB;
+  position: relative;
   float: left;
 }
 
@@ -18,7 +19,6 @@
   border: 1px solid #D5D5D5;
   border-top: 0;
   height: 100px;
-  transition: scale 10s ease-in;
 
   span {
     @include flex-grow(1); 
@@ -28,16 +28,14 @@
     padding-right: 0.4rem;
   }
 
-  i {
+  .icon-delete {
     color: $light-grey;
-  }
-
-  .icon-edit:hover {
-    color: $blue;
-  }
-
-  .icon-delete:hover {
-    color: $red;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    &:hover {
+      color: $red;
+    }
   }
 
   &:hover {
