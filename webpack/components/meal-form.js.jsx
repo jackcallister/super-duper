@@ -98,21 +98,18 @@ var MealForm = React.createClass({
     document.removeEventListener('toggleModal', this.didToggle);
   },
 
-  render: function() {
-    var t = this,
-        numberOfIngredients = this.state.ingredients.length;
-
-    var ingredientFields = this.state.ingredients.map(function(ingredient, index) {
+  renderIngredientFields: function() {
+    var fields = this.state.ingredients.map(function(ingredient, index) {
       var addButton,
           ref = "ingredientName" + index,
           key = "ingredientField" + index,
-          isLastField = index == numberOfIngredients - 1,
+          isLastField = index == this.state.ingredients.length - 1,
           toggleAddButton;
           focus;
 
       if (isLastField) {
-        addButton = <button onClick={t.addIngredientField} disabled={t.state.disableIngredientButton}>Add ingredient</button>;
-        toggleAddButton = t.toggleAddButton;
+        addButton = <button onClick={this.addIngredientField} disabled={this.state.disableIngredientButton}>Add ingredient</button>;
+        toggleAddButton = this.toggleAddButton;
         focus = true;
       }
 
@@ -122,14 +119,20 @@ var MealForm = React.createClass({
           {addButton}
         </div>
       );
-    });
+    }.bind(this));
 
-    var visibleKlass = this.state.visible ? "modal-active" : "modal-inactive";
+    return fields;
+  },
+
+  render: function() {
+    var ingredientFields = this.renderIngredientFields();
+
+    var visibleKlass = this.state.visible ? "active" : "inactive";
 
     return (
-      <div>
-        <div id="modal-overlay" className={visibleKlass} onClick={this.didToggle}></div>
-        <div ref="modal" id="modal" className={visibleKlass}>
+      <div className={"meal-form " + visibleKlass}>
+        <div className="modal-overlay" onClick={this.didToggle}></div>
+        <div ref="modal" className="modal">
           <form ref="form" onSubmit={this.createMeal}>
             <input type="text" ref="mealName" placeholder="Meal name" />
             {ingredientFields}
