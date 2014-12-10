@@ -1,0 +1,9 @@
+@import 'flexbox';
+
+.meal-form {
+  @include flexbox();
+  @include justify-content(center);
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
