@@ -17,6 +17,13 @@ class API::MealsController < ApplicationController
   end
 
   def destroy
+    @meal = current_user.meals.find(params[:id])
+
+    if @meal.destroy
+      render json: @meal
+    else
+      render json: { success: false }, status: 500
+    end
   end
 
 private
