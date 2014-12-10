@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+user = User.where(email: 'jarsbe@gmail.com').first
+
+10.times do 
+  Meal.create(name: Faker::Name.name, user: user)
+end
