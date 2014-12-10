@@ -23,6 +23,17 @@ var App = React.createClass({
     });
   },
 
+  didDeleteMeal: function(index) {
+    var meal = this.state.meals[index];
+    Meal.destroy(meal.id);
+
+    this.state.meals.splice(index, 1);
+
+    this.setState({
+      meals: this.state.meals
+    });    
+  },
+
   didSelectMeal: function(index) {
     this.setState({
       selectedMeals: this.state.selectedMeals.concat(this.state.meals[index])
@@ -47,8 +58,10 @@ var App = React.createClass({
   render: function() {
     return (
       <section className="app">
-        <MealPicker onMealSelect={this.didSelectMeal} meals={this.state.meals} />
-        <ShoppingList onMealRemove={this.didRemoveMeal} meals={this.state.selectedMeals} />
+        <main>
+          <MealPicker onMealSelect={this.didSelectMeal} onMealDelete={this.didDeleteMeal} meals={this.state.meals} />
+          <ShoppingList onMealRemove={this.didRemoveMeal} meals={this.state.selectedMeals} />
+        </main>
         <MealForm onCreateMeal={this.didCreateMeal} />
       </section>
     )
