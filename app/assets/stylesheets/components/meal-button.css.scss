@@ -25,6 +25,22 @@
     padding-left: 0.4rem;
     padding-right: 0.4rem;
   }
+
+  i {
+    color: $light-grey;
+  }
+
+  .icon-edit:hover {
+    color: $blue;
+  }
+
+  .icon-delete:hover {
+    color: $red;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .meal-button-bar {
