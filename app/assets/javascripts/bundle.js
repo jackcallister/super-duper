@@ -150,10 +150,10 @@
 
 	var MealPicker = React.createClass({displayName: 'MealPicker',
 
-	  shouldReflowGrid: function(index, nextGridItemIds) {
+	  shouldReflowGrid: function(index, gridItemIdsToAnimate) {
 	    this.setGridItemPositionsForAnimation();
 
-	    var gridItems = nextGridItemIds.map(function(id) {
+	    var gridItems = gridItemIdsToAnimate.map(function(id) {
 	      return ($(this.getDOMNode()).find('[data-reactid="' + id + '"]'))
 	    }.bind(this));
 
@@ -505,7 +505,7 @@
 
 	var MealButton = React.createClass({displayName: 'MealButton',
 
-	  getNextGridItemIds: function() {
+	  getGridItemIdsToAnimate: function() {
 	    var nextGridItems = $(this.getDOMNode()).nextAll('.grid-item');
 	    var nextGridItemsIds = [$(this.getDOMNode()).data('reactid')];
 
@@ -519,13 +519,13 @@
 	  onDelete: function(e) {
 	    e.stopPropagation();
 
-	    var result = confirm('Are you sure?');
+	    // var result = confirm('Are you sure?');
 
-	    if (result) {
-	      var nextGridItemIds = this.getNextGridItemIds();
+	    if (true) {
+	      var ids = this.getGridItemIdsToAnimate();
 
 	      this.props.onDelete();
-	      this.props.onReflowGrid(nextGridItemIds);
+	      this.props.onReflowGrid(ids);
 	    }
 	  },
 

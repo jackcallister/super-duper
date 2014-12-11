@@ -2,7 +2,7 @@ var React = require('react/addons');
 
 var MealButton = React.createClass({
 
-  getNextGridItemIds: function() {
+  getGridItemIdsToAnimate: function() {
     var nextGridItems = $(this.getDOMNode()).nextAll('.grid-item');
     var nextGridItemsIds = [$(this.getDOMNode()).data('reactid')];
 
@@ -16,13 +16,13 @@ var MealButton = React.createClass({
   onDelete: function(e) {
     e.stopPropagation();
 
-    var result = confirm('Are you sure?');
+    // var result = confirm('Are you sure?');
 
-    if (result) {
-      var nextGridItemIds = this.getNextGridItemIds();
+    if (true) {
+      var ids = this.getGridItemIdsToAnimate();
 
       this.props.onDelete();
-      this.props.onReflowGrid(nextGridItemIds);
+      this.props.onReflowGrid(ids);
     }
   },
 
