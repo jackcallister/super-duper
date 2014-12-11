@@ -219,12 +219,6 @@
 	    document.dispatchEvent(event);
 	  },
 
-	  getInitialState: function() {
-	    return {
-	      nextButtonIds: []
-	    };
-	  },
-
 	  render: function() {
 	    var mealButtons = [];
 

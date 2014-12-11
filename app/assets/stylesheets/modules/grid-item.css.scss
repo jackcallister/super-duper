@@ -1,0 +1,9 @@
+.grid-item {
+  position: relative;
+  float: left;
+  transition: transform 0.5s ease-in;
+}
+
+.grid-item.pop-out-leave-active {
+  transform: scale3d(0, 0, 0);
+}

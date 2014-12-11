@@ -1,27 +1,24 @@
 @import 'flexbox';
 @import 'config/colours';
-@import 'config/animations';
 
-.meal-button-wrapper {
+.meal-button {
   width: 120px;
   height: 120px;
   margin-right: 20px;
   margin-bottom: 20px;
-  background: #FBFBFB;
-  position: relative;
-  float: left;
+  background: $white;
 }
 
-.meal-button {
+.meal-button-label {
   @include flexbox();
   @include align-items(center);
 
-  border: 1px solid #D5D5D5;
+  border: 1px solid $grey;
   border-top: 0;
   height: 100px;
 
   span {
-    @include flex-grow(1); 
+    @include flex-grow(1);
     text-align: center;
     margin-top: -1px;
     padding-left: 0.4rem;
@@ -47,13 +44,4 @@
   height: 20px;
   width: 100%;
   background: $blue;
-}
-
-.meal-button-wrapper.pop-out-leave {
-  transform: scale3d(1.4, 1.4, 1.4);
-  transition: transform 0.3s ease-in;
-}
-
-.meal-button-wrapper.pop-out-leave-active {
-  transform: scale3d(0, 0, 0);
 }
