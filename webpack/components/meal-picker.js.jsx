@@ -7,9 +7,10 @@ var MealPicker = React.createClass({
   shouldReflowGrid: function(index, gridItemIdsToAnimate) {
     this.setGridItemPositionsForAnimation();
 
+    var mealPicker = $(this.getDOMNode());
     var gridItems = gridItemIdsToAnimate.map(function(id) {
-      return ($(this.getDOMNode()).find('[data-reactid="' + id + '"]'))
-    }.bind(this));
+      return mealPicker.find('[data-reactid="' + id + '"]');
+    });
 
     gridItems.reverse().forEach(function(gridItem, index){
       if (index == gridItems.length - 1) {
