@@ -150,10 +150,10 @@
 
 	var MealPicker = React.createClass({displayName: 'MealPicker',
 
-	  shouldReflowGrid: function(index, nextGridItemIds) {
+	  shouldReflowGrid: function(index, gridItemIdsToAnimate) {
 	    this.setGridItemPositionsForAnimation();
 
-	    var gridItems = nextGridItemIds.map(function(id) {
+	    var gridItems = gridItemIdsToAnimate.map(function(id) {
 	      return ($(this.getDOMNode()).find('[data-reactid="' + id + '"]'))
 	    }.bind(this));
 
