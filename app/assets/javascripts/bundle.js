@@ -345,10 +345,8 @@
 	    this.setState({
 	      visible: !this.state.visible
 	    }, function() {
-	      this.refs.mealName.getDOMNode().focus();
-	      if (!this.state.visible) {
-	        this.clearForm();
-	        this.replaceState(this.getInitialState());
+	      if (this.state.visible) {
+	        this.refs.mealName.getDOMNode().focus();
 	      }
 	    });
 	  },
