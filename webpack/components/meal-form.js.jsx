@@ -7,7 +7,7 @@ var MealForm = React.createClass({
     return ['other', 'poultry', 'seafood', 'meat', 'pasta', 'vegetarian'];
   },
 
-  getMealFromForm: function() {
+  getFormData: function() {
     var categories = this.categories(),
         selectedCategory;
 
@@ -38,43 +38,15 @@ var MealForm = React.createClass({
   createMeal: function(e) {
     e.preventDefault();
 
-    var meal = this.getMealFromForm();
-
-    Meal.create(meal, function(response) {
+    Meal.create(this.getFormData(), function(response) {
       this.afterCreateMeal(response);
     }.bind(this));
   },
 
   afterCreateMeal: function(meal) {
-    this.props.onCreateMeal(meal);
-    this.clearForm();
-    this.didToggle();
-  },
-
-  clearForm: function() {
-    var categories = this.categories();
-    this.refs["mealName"].getDOMNode().value = "";
-    this.state.ingredients.forEach(function(ingredient, index) {
-      this.refs["ingredientName" + index].getDOMNode().value = "";
-    }.bind(this));
-    categories.forEach(function(category){
-      this.refs[category].getDOMNode().checked = false;
-      this.setState({
-        selectedCategory: null
-      });
-    }.bind(this));
-  },
-
-  didToggle: function(e) {
-    this.setState({
-      visible: !this.state.visible
-    }, function() {
-      this.refs.mealName.getDOMNode().focus();
-      if (!this.state.visible) {
-        this.clearForm();
-        this.replaceState(this.getInitialState());
-      }
-    });
+    this.replaceState(this.getInitialState());
+    this.props.onMealCreate(meal);
+    this.props.onFormExit();
   },
 
   toggleAddButton: function(event) {
@@ -114,19 +86,10 @@ var MealForm = React.createClass({
 
   getInitialState: function() {
     return {
-      visible: false,
       ingredients: [this.defaultIngredient()],
       disableIngredientButton: true,
       selectedCategory: null
     };
-  },
-
-  componentDidMount: function() {
-    document.addEventListener('toggleModal', this.didToggle);
-  },
-
-  componentWillUnmount: function() {
-    document.removeEventListener('toggleModal', this.didToggle);
   },
 
   renderIngredientFields: function() {
@@ -139,13 +102,13 @@ var MealForm = React.createClass({
           focus;
 
       if (isLastField) {
-        addButton = <button onClick={this.addIngredientField} disabled={this.state.disableIngredientButton}>Add ingredient</button>;
+        addButton = <button onClick={this.addIngredientField} disabled={this.state.disableIngredientButton}>Add</button>;
         toggleAddButton = this.toggleAddButton;
         focus = true;
       }
 
       return (
-        <div key={key}>
+        <div className="form-group" key={key}>
           <input type="text" ref={ref} placeholder="Ingredient" onChange={toggleAddButton} autoFocus={focus} />
           {addButton}
         </div>
@@ -168,28 +131,32 @@ var MealForm = React.createClass({
       }
 
       return (
-        <fieldset key={'fieldset-' + category}>
+        <span key={'radio-group-' + category}>
           <label className={'radio-label ' + selectedKlass} htmlFor={category} onClick={this.handleRadioLabelClick.bind(this, category)}/>
           <input type='radio' name='category' value={category} ref={category} />
-        </fieldset>
+        </span>
       )
     }.bind(this));
 
-    return radioButtons;
+    return (
+      <div className="form-group">
+        {radioButtons}
+      </div>
+    );
   },
 
   render: function() {
     var ingredientFields = this.renderIngredientFields();
     var categoryRadioButons = this.renderCategoryRadioButtons();
 
-    var visibleKlass = this.state.visible ? "active" : "inactive";
-
     return (
-      <div className={'meal-form ' + visibleKlass}>
-        <div className='modal-overlay' onClick={this.didToggle}></div>
+      <div className='meal-form active'>
+        <div className='modal-overlay' onClick={this.props.onFormExit}></div>
         <div ref='modal' className='modal'>
           <form ref='form' onSubmit={this.createMeal}>
-            <input type='text' ref='mealName' placeholder='Meal name' />
+            <div className="form-group">
+              <input type='text' ref='mealName' placeholder='Meal name' />
+            </div>
             {ingredientFields}
             {categoryRadioButons}
             <input type='submit' value='Add Meal' />

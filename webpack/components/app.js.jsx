@@ -38,10 +38,23 @@ var App = React.createClass({
     });
   },
 
+  didClickAddButton: function() {
+    this.setState({
+      displayAddMealForm: true
+    });
+  },
+
+  didExitForm: function() {
+    this.setState({
+      displayAddMealForm: false
+    });
+  },
+
   getInitialState: function() {
     return {
       meals: [],
-      selectedMeals: []
+      selectedMeals: [],
+      displayAddMealForm: false
     };
   },
 
@@ -54,13 +67,22 @@ var App = React.createClass({
   },
 
   render: function() {
+    var mealForm;
+
+    if (this.state.displayAddMealForm) {
+      mealForm = <MealForm onMealCreate={this.didCreateMeal} onFormExit={this.didExitForm} />
+    }
+
     return (
       <section className="app">
         <main>
-          <MealPicker onMealSelect={this.didSelectMeal} onMealDelete={this.didDeleteMeal} meals={this.state.meals} />
+          <MealPicker onMealSelect={this.didSelectMeal}
+                      onMealDelete={this.didDeleteMeal}
+                      onAddButtonClick={this.didClickAddButton}
+                      meals={this.state.meals} />
           <ShoppingList onMealRemove={this.didRemoveMeal} meals={this.state.selectedMeals} />
         </main>
-        <MealForm onCreateMeal={this.didCreateMeal} />
+        {mealForm}
       </section>
     )
   }

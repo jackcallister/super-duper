@@ -96,10 +96,23 @@
 	    });
 	  },
 
+	  didClickAddButton: function() {
+	    this.setState({
+	      displayAddMealForm: true
+	    });
+	  },
+
+	  didExitForm: function() {
+	    this.setState({
+	      displayAddMealForm: false
+	    });
+	  },
+
 	  getInitialState: function() {
 	    return {
 	      meals: [],
-	      selectedMeals: []
+	      selectedMeals: [],
+	      displayAddMealForm: false
 	    };
 	  },
 
@@ -112,13 +125,22 @@
 	  },
 
 	  render: function() {
+	    var mealForm;
+
+	    if (this.state.displayAddMealForm) {
+	      mealForm = React.createElement(MealForm, {onMealCreate: this.didCreateMeal, onFormExit: this.didExitForm})
+	    }
+
 	    return (
 	      React.createElement("section", {className: "app"}, 
 	        React.createElement("main", null, 
-	          React.createElement(MealPicker, {onMealSelect: this.didSelectMeal, onMealDelete: this.didDeleteMeal, meals: this.state.meals}), 
+	          React.createElement(MealPicker, {onMealSelect: this.didSelectMeal, 
+	                      onMealDelete: this.didDeleteMeal, 
+	                      onAddButtonClick: this.didClickAddButton, 
+	                      meals: this.state.meals}), 
 	          React.createElement(ShoppingList, {onMealRemove: this.didRemoveMeal, meals: this.state.selectedMeals})
 	        ), 
-	        React.createElement(MealForm, {onCreateMeal: this.didCreateMeal})
+	        mealForm
 	      )
 	    )
 	  }
@@ -216,11 +238,6 @@
 	    });
 	  },
 
-	  toggleModal: function() {
-	    var event = new CustomEvent('toggleModal');
-	    document.dispatchEvent(event);
-	  },
-
 	  render: function() {
 	    var mealButtons = [];
 
@@ -240,7 +257,7 @@
 	        React.createElement("h1", null, "Meal Picker"), 
 	        mealButtons, 
 	        React.createElement("div", {className: "grid-item"}, 
-	          React.createElement("button", {onClick: this.toggleModal}, "Add")
+	          React.createElement("button", {onClick: this.props.onAddButtonClick}, "Add")
 	        )
 	      )
 	    );
@@ -332,23 +349,9 @@
 	  },
 
 	  afterCreateMeal: function(meal) {
-	    this.props.onCreateMeal(meal);
-	    this.clearForm();
-	    this.didToggle();
-	  },
-
-	  clearForm: function() {
 	    this.replaceState(this.getInitialState());
-	  },
-
-	  didToggle: function(e) {
-	    this.setState({
-	      visible: !this.state.visible
-	    }, function() {
-	      if (this.state.visible) {
-	        this.refs.mealName.getDOMNode().focus();
-	      }
-	    });
+	    this.props.onMealCreate(meal);
+	    this.props.onFormExit();
 	  },
 
 	  toggleAddButton: function(event) {
@@ -388,19 +391,10 @@
 
 	  getInitialState: function() {
 	    return {
-	      visible: false,
 	      ingredients: [this.defaultIngredient()],
 	      disableIngredientButton: true,
 	      selectedCategory: null
 	    };
-	  },
-
-	  componentDidMount: function() {
-	    document.addEventListener('toggleModal', this.didToggle);
-	  },
-
-	  componentWillUnmount: function() {
-	    document.removeEventListener('toggleModal', this.didToggle);
 	  },
 
 	  renderIngredientFields: function() {
@@ -413,7 +407,7 @@
 	          focus;
 
 	      if (isLastField) {
-	        addButton = React.createElement("button", {onClick: this.addIngredientField, disabled: this.state.disableIngredientButton}, "Add ingredient");
+	        addButton = React.createElement("button", {onClick: this.addIngredientField, disabled: this.state.disableIngredientButton}, "Add");
 	        toggleAddButton = this.toggleAddButton;
 	        focus = true;
 	      }
@@ -460,11 +454,9 @@
 	    var ingredientFields = this.renderIngredientFields();
 	    var categoryRadioButons = this.renderCategoryRadioButtons();
 
-	    var visibleKlass = this.state.visible ? "active" : "inactive";
-
 	    return (
-	      React.createElement("div", {className: 'meal-form ' + visibleKlass}, 
-	        React.createElement("div", {className: "modal-overlay", onClick: this.didToggle}), 
+	      React.createElement("div", {className: "meal-form active"}, 
+	        React.createElement("div", {className: "modal-overlay", onClick: this.props.onFormExit}), 
 	        React.createElement("div", {ref: "modal", className: "modal"}, 
 	          React.createElement("form", {ref: "form", onSubmit: this.createMeal}, 
 	            React.createElement("div", {className: "form-group"}, 

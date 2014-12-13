@@ -69,11 +69,6 @@ var MealPicker = React.createClass({
     });
   },
 
-  toggleModal: function() {
-    var event = new CustomEvent('toggleModal');
-    document.dispatchEvent(event);
-  },
-
   render: function() {
     var mealButtons = [];
 
@@ -93,7 +88,7 @@ var MealPicker = React.createClass({
         <h1>Meal Picker</h1>
         {mealButtons}
         <div className="grid-item">
-          <button onClick={this.toggleModal}>Add</button>
+          <button onClick={this.props.onAddButtonClick}>Add</button>
         </div>
       </div>
     );
