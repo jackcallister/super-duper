@@ -295,7 +295,7 @@
 	    return ['other', 'poultry', 'seafood', 'meat', 'pasta', 'vegetarian'];
 	  },
 
-	  getMealFromForm: function() {
+	  getFormData: function() {
 	    var categories = this.categories(),
 	        selectedCategory;
 
@@ -326,9 +326,7 @@
 	  createMeal: function(e) {
 	    e.preventDefault();
 
-	    var meal = this.getMealFromForm();
-
-	    Meal.create(meal, function(response) {
+	    Meal.create(this.getFormData(), function(response) {
 	      this.afterCreateMeal(response);
 	    }.bind(this));
 	  },
