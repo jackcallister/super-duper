@@ -419,7 +419,7 @@
 	      }
 
 	      return (
-	        React.createElement("div", {key: key}, 
+	        React.createElement("div", {className: "form-group", key: key}, 
 	          React.createElement("input", {type: "text", ref: ref, placeholder: "Ingredient", onChange: toggleAddButton, autoFocus: focus}), 
 	          addButton
 	        )
@@ -442,14 +442,18 @@
 	      }
 
 	      return (
-	        React.createElement("fieldset", {key: 'fieldset-' + category}, 
+	        React.createElement("span", {key: 'radio-group-' + category}, 
 	          React.createElement("label", {className: 'radio-label ' + selectedKlass, htmlFor: category, onClick: this.handleRadioLabelClick.bind(this, category)}), 
 	          React.createElement("input", {type: "radio", name: "category", value: category, ref: category})
 	        )
 	      )
 	    }.bind(this));
 
-	    return radioButtons;
+	    return (
+	      React.createElement("div", {className: "form-group"}, 
+	        radioButtons
+	      )
+	    );
 	  },
 
 	  render: function() {
@@ -463,7 +467,9 @@
 	        React.createElement("div", {className: "modal-overlay", onClick: this.didToggle}), 
 	        React.createElement("div", {ref: "modal", className: "modal"}, 
 	          React.createElement("form", {ref: "form", onSubmit: this.createMeal}, 
-	            React.createElement("input", {type: "text", ref: "mealName", placeholder: "Meal name"}), 
+	            React.createElement("div", {className: "form-group"}, 
+	              React.createElement("input", {type: "text", ref: "mealName", placeholder: "Meal name"})
+	            ), 
 	            ingredientFields, 
 	            categoryRadioButons, 
 	            React.createElement("input", {type: "submit", value: "Add Meal"})
