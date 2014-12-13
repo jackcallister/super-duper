@@ -16,14 +16,20 @@ var MealButton = React.createClass({
   onDelete: function(e) {
     e.stopPropagation();
 
-    // var result = confirm('Are you sure?');
+    var result = confirm('Are you sure?');
 
-    if (true) {
+    if (result) {
       var ids = this.getGridItemIdsToAnimate();
 
       this.props.onDelete();
       this.props.onReflowGrid(ids);
     }
+  },
+
+  getDefaultProps: function() {
+    return {
+      category: 'other'
+    };
   },
 
   getInitialState: function() {
@@ -34,11 +40,11 @@ var MealButton = React.createClass({
 
   render: function() {
     return (
-      <div className="grid-item meal-button" onClick={this.props.onSelect}>
-        <div className="meal-button-bar"></div>
-        <div className="meal-button-label">
+      <div className='grid-item meal-button' onClick={this.props.onSelect}>
+        <div className={'meal-button-bar ' + this.props.category}></div>
+        <div className='meal-button-label'>
           <span>{this.props.name}</span>
-          <i className="icon-delete" onClick={this.onDelete}></i>
+          <i className='icon-delete' onClick={this.onDelete}></i>
         </div>
       </div>
     );

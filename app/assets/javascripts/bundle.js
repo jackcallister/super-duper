@@ -84,6 +84,7 @@
 	  didDeleteMeal: function(index) {
 	    Meal.destroy(this.state.meals[index].id);
 	    this.state.meals.splice(index, 1);
+
 	    this.setState({
 	      meals: this.state.meals
 	    });
@@ -229,6 +230,7 @@
 	                    onDelete: this.didDeleteMeal.bind(this, index), 
 	                    onReflowGrid: this.shouldReflowGrid.bind(this, index), 
 	                    name: meal.name, 
+	                    category: meal.category, 
 	                    key: meal.id})
 	      )
 	    }.bind(this));
@@ -289,17 +291,32 @@
 
 	var MealForm = React.createClass({displayName: 'MealForm',
 
+	  categories: function() {
+	    return ['other', 'poultry', 'seafood', 'meat', 'pasta', 'vegetarian'];
+	  },
+
 	  getMealFromForm: function() {
+	    var categories = this.categories(),
+	        selectedCategory;
+
 	    var mealName = this.refs["mealName"].getDOMNode().value.trim();
-	    
+
 	    var ingredientAttributes = this.state.ingredients.map(function(ingredient, index) {
 	      return { name: this.refs["ingredientName" + index].getDOMNode().value.trim() }
+	    }.bind(this));
+
+	    categories.forEach(function(category){
+	      var checked = this.refs[category].getDOMNode().checked;
+	      if (checked) {
+	        selectedCategory = category;
+	      }
 	    }.bind(this));
 
 	    var data = {
 	      meal: {
 	        name: mealName,
-	        ingredients_attributes: ingredientAttributes
+	        ingredients_attributes: ingredientAttributes,
+	        category: selectedCategory
 	      }
 	    }
 
@@ -307,12 +324,12 @@
 	  },
 
 	  createMeal: function(e) {
-	    e.preventDefault();   
+	    e.preventDefault();
 
 	    var meal = this.getMealFromForm();
-	    
+
 	    Meal.create(meal, function(response) {
-	      this.afterCreateMeal(response);  
+	      this.afterCreateMeal(response);
 	    }.bind(this));
 	  },
 
@@ -323,9 +340,16 @@
 	  },
 
 	  clearForm: function() {
+	    var categories = this.categories();
 	    this.refs["mealName"].getDOMNode().value = "";
 	    this.state.ingredients.forEach(function(ingredient, index) {
 	      this.refs["ingredientName" + index].getDOMNode().value = "";
+	    }.bind(this));
+	    categories.forEach(function(category){
+	      this.refs[category].getDOMNode().checked = false;
+	      this.setState({
+	        selectedCategory: null
+	      });
 	    }.bind(this));
 	  },
 
@@ -353,8 +377,8 @@
 	    }
 	  },
 
-	  addIngredientField: function(e) {
-	    e.preventDefault();
+	  addIngredientField: function(event) {
+	    event.preventDefault();
 	    var ingredients = this.state.ingredients;
 	    ingredients.push(this.defaultIngredient());
 
@@ -362,6 +386,14 @@
 	      ingredients: ingredients,
 	      disableIngredientButton: true
 	    });
+	  },
+
+	  handleRadioLabelClick: function(category, event) {
+	    this.setState({
+	      selectedCategory: category
+	    });
+
+	    this.refs[category].getDOMNode().checked = true;
 	  },
 
 	  defaultIngredient: function() {
@@ -372,7 +404,8 @@
 	    return {
 	      visible: false,
 	      ingredients: [this.defaultIngredient()],
-	      disableIngredientButton: true
+	      disableIngredientButton: true,
+	      selectedCategory: null
 	    };
 	  },
 
@@ -410,18 +443,43 @@
 	    return fields;
 	  },
 
+	  renderCategoryRadioButtons: function() {
+	    var categories = this.categories();
+
+	    var radioButtons = categories.map(function(category) {
+	      var selectedKlass;
+	      var checked;
+
+	      if (category == this.state.selectedCategory) {
+	        selectedKlass = 'selected';
+	        checked = true;
+	      }
+
+	      return (
+	        React.createElement("fieldset", {key: 'fieldset-' + category}, 
+	          React.createElement("label", {className: 'radio-label ' + selectedKlass, htmlFor: category, onClick: this.handleRadioLabelClick.bind(this, category)}), 
+	          React.createElement("input", {type: "radio", name: "category", value: category, ref: category})
+	        )
+	      )
+	    }.bind(this));
+
+	    return radioButtons;
+	  },
+
 	  render: function() {
 	    var ingredientFields = this.renderIngredientFields();
+	    var categoryRadioButons = this.renderCategoryRadioButtons();
 
 	    var visibleKlass = this.state.visible ? "active" : "inactive";
 
 	    return (
-	      React.createElement("div", {className: "meal-form " + visibleKlass}, 
+	      React.createElement("div", {className: 'meal-form ' + visibleKlass}, 
 	        React.createElement("div", {className: "modal-overlay", onClick: this.didToggle}), 
 	        React.createElement("div", {ref: "modal", className: "modal"}, 
 	          React.createElement("form", {ref: "form", onSubmit: this.createMeal}, 
 	            React.createElement("input", {type: "text", ref: "mealName", placeholder: "Meal name"}), 
 	            ingredientFields, 
+	            categoryRadioButons, 
 	            React.createElement("input", {type: "submit", value: "Add Meal"})
 	          )
 	        )
@@ -738,14 +796,20 @@
 	  onDelete: function(e) {
 	    e.stopPropagation();
 
-	    // var result = confirm('Are you sure?');
+	    var result = confirm('Are you sure?');
 
-	    if (true) {
+	    if (result) {
 	      var ids = this.getGridItemIdsToAnimate();
 
 	      this.props.onDelete();
 	      this.props.onReflowGrid(ids);
 	    }
+	  },
+
+	  getDefaultProps: function() {
+	    return {
+	      category: 'other'
+	    };
 	  },
 
 	  getInitialState: function() {
@@ -757,7 +821,7 @@
 	  render: function() {
 	    return (
 	      React.createElement("div", {className: "grid-item meal-button", onClick: this.props.onSelect}, 
-	        React.createElement("div", {className: "meal-button-bar"}), 
+	        React.createElement("div", {className: 'meal-button-bar ' + this.props.category}), 
 	        React.createElement("div", {className: "meal-button-label"}, 
 	          React.createElement("span", null, this.props.name), 
 	          React.createElement("i", {className: "icon-delete", onClick: this.onDelete})

@@ -44,4 +44,23 @@
   height: 20px;
   width: 100%;
   background: $blue;
+
+  &.other {
+    background: $blue;
+  }
+  &.poultry {
+    background: $orange;
+  }
+  &.seafood {
+    background: $cream;
+  }
+  &.meat {
+    background: $red;
+  }
+  &.pasta {
+    background: $yellow;
+  }
+  &.vegetarian {
+    background: $green;
+  }
 }

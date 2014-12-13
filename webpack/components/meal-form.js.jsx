@@ -3,17 +3,32 @@ var React = require('react/addons'),
 
 var MealForm = React.createClass({
 
+  categories: function() {
+    return ['other', 'poultry', 'seafood', 'meat', 'pasta', 'vegetarian'];
+  },
+
   getMealFromForm: function() {
+    var categories = this.categories(),
+        selectedCategory;
+
     var mealName = this.refs["mealName"].getDOMNode().value.trim();
-    
+
     var ingredientAttributes = this.state.ingredients.map(function(ingredient, index) {
       return { name: this.refs["ingredientName" + index].getDOMNode().value.trim() }
+    }.bind(this));
+
+    categories.forEach(function(category){
+      var checked = this.refs[category].getDOMNode().checked;
+      if (checked) {
+        selectedCategory = category;
+      }
     }.bind(this));
 
     var data = {
       meal: {
         name: mealName,
-        ingredients_attributes: ingredientAttributes
+        ingredients_attributes: ingredientAttributes,
+        category: selectedCategory
       }
     }
 
@@ -21,12 +36,12 @@ var MealForm = React.createClass({
   },
 
   createMeal: function(e) {
-    e.preventDefault();   
+    e.preventDefault();
 
     var meal = this.getMealFromForm();
-    
+
     Meal.create(meal, function(response) {
-      this.afterCreateMeal(response);  
+      this.afterCreateMeal(response);
     }.bind(this));
   },
 
@@ -37,9 +52,16 @@ var MealForm = React.createClass({
   },
 
   clearForm: function() {
+    var categories = this.categories();
     this.refs["mealName"].getDOMNode().value = "";
     this.state.ingredients.forEach(function(ingredient, index) {
       this.refs["ingredientName" + index].getDOMNode().value = "";
+    }.bind(this));
+    categories.forEach(function(category){
+      this.refs[category].getDOMNode().checked = false;
+      this.setState({
+        selectedCategory: null
+      });
     }.bind(this));
   },
 
@@ -67,8 +89,8 @@ var MealForm = React.createClass({
     }
   },
 
-  addIngredientField: function(e) {
-    e.preventDefault();
+  addIngredientField: function(event) {
+    event.preventDefault();
     var ingredients = this.state.ingredients;
     ingredients.push(this.defaultIngredient());
 
@@ -76,6 +98,14 @@ var MealForm = React.createClass({
       ingredients: ingredients,
       disableIngredientButton: true
     });
+  },
+
+  handleRadioLabelClick: function(category, event) {
+    this.setState({
+      selectedCategory: category
+    });
+
+    this.refs[category].getDOMNode().checked = true;
   },
 
   defaultIngredient: function() {
@@ -86,7 +116,8 @@ var MealForm = React.createClass({
     return {
       visible: false,
       ingredients: [this.defaultIngredient()],
-      disableIngredientButton: true
+      disableIngredientButton: true,
+      selectedCategory: null
     };
   },
 
@@ -124,19 +155,44 @@ var MealForm = React.createClass({
     return fields;
   },
 
+  renderCategoryRadioButtons: function() {
+    var categories = this.categories();
+
+    var radioButtons = categories.map(function(category) {
+      var selectedKlass;
+      var checked;
+
+      if (category == this.state.selectedCategory) {
+        selectedKlass = 'selected';
+        checked = true;
+      }
+
+      return (
+        <fieldset key={'fieldset-' + category}>
+          <label className={'radio-label ' + selectedKlass} htmlFor={category} onClick={this.handleRadioLabelClick.bind(this, category)}/>
+          <input type='radio' name='category' value={category} ref={category} />
+        </fieldset>
+      )
+    }.bind(this));
+
+    return radioButtons;
+  },
+
   render: function() {
     var ingredientFields = this.renderIngredientFields();
+    var categoryRadioButons = this.renderCategoryRadioButtons();
 
     var visibleKlass = this.state.visible ? "active" : "inactive";
 
     return (
-      <div className={"meal-form " + visibleKlass}>
-        <div className="modal-overlay" onClick={this.didToggle}></div>
-        <div ref="modal" className="modal">
-          <form ref="form" onSubmit={this.createMeal}>
-            <input type="text" ref="mealName" placeholder="Meal name" />
+      <div className={'meal-form ' + visibleKlass}>
+        <div className='modal-overlay' onClick={this.didToggle}></div>
+        <div ref='modal' className='modal'>
+          <form ref='form' onSubmit={this.createMeal}>
+            <input type='text' ref='mealName' placeholder='Meal name' />
             {ingredientFields}
-            <input type="submit" value="Add Meal" />
+            {categoryRadioButons}
+            <input type='submit' value='Add Meal' />
           </form>
         </div>
       </div>

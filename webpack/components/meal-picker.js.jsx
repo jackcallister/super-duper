@@ -83,6 +83,7 @@ var MealPicker = React.createClass({
                     onDelete={this.didDeleteMeal.bind(this, index)}
                     onReflowGrid={this.shouldReflowGrid.bind(this, index)}
                     name={meal.name}
+                    category={meal.category}
                     key={meal.id}  />
       )
     }.bind(this));

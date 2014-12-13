@@ -30,7 +30,9 @@ private
 
   def meal_params
     params[:meal].permit(
-      :name, ingredients_attributes: [:name]
+      :name,
+      :category,
+      ingredients_attributes: [:name]
     )
   end
 end

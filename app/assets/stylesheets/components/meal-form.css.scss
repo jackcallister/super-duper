@@ -1,4 +1,5 @@
 @import 'flexbox';
+@import 'config/colours';
 
 .meal-form {
   @include flexbox();
@@ -6,4 +7,45 @@
   position: fixed;
   width: 100%;
   top: 0;
+
+  input[type=radio] {
+    display: none;
+  }
+
+  .radio-label:before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    display: block;
+    border-radius: 16px;
+  }
+
+  .radio-label.selected:before {
+    border-radius: 0;
+  }
+
+  .radio-label[for='other']:before {
+    background: $blue;
+  }
+
+  .radio-label[for='poultry']:before {
+    background: $orange;
+  }
+
+  .radio-label[for='seafood']:before {
+    background: $cream;
+  }
+
+  .radio-label[for='meat']:before {
+    background: $red;
+  }
+
+  .radio-label[for='pasta']:before {
+    background: $yellow;
+  }
+
+  .radio-label[for='vegetarian']:before {
+    background: $green;
+  }
 }
+
