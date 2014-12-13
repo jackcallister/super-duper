@@ -340,17 +340,7 @@
 	  },
 
 	  clearForm: function() {
-	    var categories = this.categories();
-	    this.refs["mealName"].getDOMNode().value = "";
-	    this.state.ingredients.forEach(function(ingredient, index) {
-	      this.refs["ingredientName" + index].getDOMNode().value = "";
-	    }.bind(this));
-	    categories.forEach(function(category){
-	      this.refs[category].getDOMNode().checked = false;
-	      this.setState({
-	        selectedCategory: null
-	      });
-	    }.bind(this));
+	    this.replaceState(this.getInitialState());
 	  },
 
 	  didToggle: function(e) {
