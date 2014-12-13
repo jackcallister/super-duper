@@ -1,0 +1,12 @@
+@import 'flexbox';
+
+.form-group {
+  @include flexbox();
+  @include justify-content(space-between);
+
+  margin-bottom: 1rem;
+
+  input[type='text'] {
+    width: 100%;
+  }
+}
