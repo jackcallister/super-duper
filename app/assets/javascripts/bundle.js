@@ -587,17 +587,36 @@
 
 	var MealRow = React.createClass({displayName: 'MealRow',
 
+	  handleCollapseToggle: function() {
+	    this.setState({
+	      collapsed: !this.state.collapsed
+	    })
+	  },
+
+	  getInitialState: function() {
+	    return {
+	      collapsed: true
+	    };
+	  },
+
 	  render: function() {
-	    var ingredients = [];
+	    var ingredients = [],
+	        collapsedKlass;
 
 	    this.props.meal.ingredients.forEach(function(ingredient, index) {
 	      ingredients.push(React.createElement("li", {key: index}, ingredient.name))
 	    });
 
+	    if (this.state.collapsed) {
+	      collapsedKlass = 'closed';
+	    } else {
+	      collapsedKlass = 'open'
+	    }
+
 	    return (
 	      React.createElement("div", null, 
-	        React.createElement("h3", null, this.props.meal.name), 
-	        React.createElement("ul", null, 
+	        React.createElement("h3", {onClick: this.handleCollapseToggle}, this.props.meal.name), 
+	        React.createElement("ul", {className: 'accordian ' + collapsedKlass}, 
 	          ingredients
 	        ), 
 	        React.createElement("button", {onClick: this.props.onRemove}, "Remove")
