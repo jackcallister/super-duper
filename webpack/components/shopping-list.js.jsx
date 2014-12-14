@@ -3,7 +3,8 @@ var React = require('react'),
 
 var ShoppingList = React.createClass({
 
-  didRemoveMeal: function(index) {
+  didRemoveMeal: function(index, event) {
+    event.stopPropagation();
     this.props.onMealRemove(index);
   },
 
