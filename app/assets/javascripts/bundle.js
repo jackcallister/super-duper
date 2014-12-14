@@ -266,6 +266,7 @@
 
 	var React = __webpack_require__(7),
 	    MealRow = __webpack_require__(9);
+	    ShareRow = __webpack_require__(171);
 
 	var ShoppingList = React.createClass({displayName: 'ShoppingList',
 
@@ -284,7 +285,8 @@
 	    return (
 	      React.createElement("div", {className: "shopping-list"}, 
 	        React.createElement("h1", null, "Shopping List"), 
-	        meals
+	        meals, 
+	        React.createElement(ShareRow, {meals: this.props.meals})
 	      )
 	    );
 	  }
@@ -21194,6 +21196,66 @@
 	module.exports = toArray;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
+
+/***/ },
+/* 171 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(7),
+	    List = __webpack_require__(173);
+
+	var ShareRow = React.createClass({displayName: 'ShareRow',
+
+	  emailList: function() {
+	    var data = {
+	      meal_ids: this.meal_ids()
+	    }
+
+	    List.email(data);
+	  },
+
+	  meal_ids: function() {
+	    return this.props.meals.map(function(meal) {
+	      return meal.id
+	    });
+	  },
+
+	  getDefaultProps: function() {
+	    return {
+	      meals: []
+	    };
+	  },
+
+	  render: function() {
+
+	    return (
+	      React.createElement("button", {onClick: this.emailList}, "Send")
+	    );
+	  }
+
+	});
+
+	module.exports = ShareRow;
+
+
+/***/ },
+/* 172 */,
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var List = function(){};
+
+	List.email = function(data) {
+	  $.ajax({
+	    data: data,
+	    url: '/api/lists',
+	    type: 'POST',
+	    dataType: 'json'
+	  });
+	}
+
+	module.exports = List;
+
 
 /***/ }
 /******/ ])

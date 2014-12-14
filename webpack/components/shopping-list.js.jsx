@@ -1,5 +1,6 @@
 var React = require('react'),
     MealRow = require('./meal-row.js.jsx');
+    ShareRow = require('./share-row.js.jsx');
 
 var ShoppingList = React.createClass({
 
@@ -19,6 +20,7 @@ var ShoppingList = React.createClass({
       <div className="shopping-list">
         <h1>Shopping List</h1>
         {meals}
+        <ShareRow meals={this.props.meals} />
       </div>
     );
   }
