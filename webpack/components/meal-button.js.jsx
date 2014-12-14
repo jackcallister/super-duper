@@ -15,6 +15,8 @@ var MealButton = React.createClass({
 
   onDelete: function(e) {
     e.stopPropagation();
+  onDelete: function(event) {
+    event.stopPropagation();
 
     var result = confirm('Are you sure?');
 
