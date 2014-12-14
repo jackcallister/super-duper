@@ -13,8 +13,6 @@ var MealButton = React.createClass({
     return nextGridItemsIds;
   },
 
-  onDelete: function(e) {
-    e.stopPropagation();
   onDelete: function(event) {
     event.stopPropagation();
 

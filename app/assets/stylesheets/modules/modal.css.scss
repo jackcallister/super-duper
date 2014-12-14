@@ -3,6 +3,8 @@
   margin: 8rem 0 0 0;
   background: white;
   z-index: 2;
+  max-height: 80vh;
+  overflow: scroll;
 }
 
 .modal-overlay {
