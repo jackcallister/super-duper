@@ -161,7 +161,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2),
-	    MealButton = __webpack_require__(8);
+	    MealButton = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./meal-button.js.jsx\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 
 	var MealPicker = React.createClass({displayName: 'MealPicker',
@@ -269,7 +269,8 @@
 
 	var ShoppingList = React.createClass({displayName: 'ShoppingList',
 
-	  didRemoveMeal: function(index) {
+	  didRemoveMeal: function(index, event) {
+	    event.stopPropagation();
 	    this.props.onMealRemove(index);
 	  },
 
@@ -520,66 +521,7 @@
 
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(2);
-
-	var MealButton = React.createClass({displayName: 'MealButton',
-
-	  getGridItemIdsToAnimate: function() {
-	    var nextGridItems = $(this.getDOMNode()).nextAll('.grid-item');
-	    var nextGridItemsIds = [$(this.getDOMNode()).data('reactid')];
-
-	    nextGridItems.toArray().forEach(function(gridItem, index){
-	      nextGridItemsIds.push($(gridItem).data('reactid'));
-	    });
-
-	    return nextGridItemsIds;
-	  },
-
-	  onDelete: function(e) {
-	    e.stopPropagation();
-
-	    var result = confirm('Are you sure?');
-
-	    if (result) {
-	      var ids = this.getGridItemIdsToAnimate();
-
-	      this.props.onDelete();
-	      this.props.onReflowGrid(ids);
-	    }
-	  },
-
-	  getDefaultProps: function() {
-	    return {
-	      category: 'other'
-	    };
-	  },
-
-	  getInitialState: function() {
-	    return {
-	      nextMealButtonIds: []
-	    };
-	  },
-
-	  render: function() {
-	    return (
-	      React.createElement("div", {className: "grid-item meal-button", onClick: this.props.onSelect}, 
-	        React.createElement("div", {className: 'meal-button-bar ' + this.props.category}), 
-	        React.createElement("div", {className: "meal-button-label"}, 
-	          React.createElement("span", null, this.props.name), 
-	          React.createElement("i", {className: "icon-delete", onClick: this.onDelete})
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = MealButton;
-
-
-/***/ },
+/* 8 */,
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
