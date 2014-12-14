@@ -3,32 +3,16 @@ var React = require('react/addons'),
 
 var MealForm = React.createClass({
 
-  categories: function() {
-    return ['other', 'poultry', 'seafood', 'meat', 'pasta', 'vegetarian'];
-  },
-
   getFormData: function() {
-    var categories = this.categories(),
-        selectedCategory;
-
-    var mealName = this.refs["mealName"].getDOMNode().value.trim();
-
-    var ingredientAttributes = this.state.ingredients.map(function(ingredient, index) {
-      return { name: this.refs["ingredientName" + index].getDOMNode().value.trim() }
-    }.bind(this));
-
-    categories.forEach(function(category){
-      var checked = this.refs[category].getDOMNode().checked;
-      if (checked) {
-        selectedCategory = category;
-      }
-    }.bind(this));
+    var name = this.state.name;
+    var ingredients = this.state.ingredients;
+    var category = this.state.category;
 
     var data = {
       meal: {
-        name: mealName,
-        ingredients_attributes: ingredientAttributes,
-        category: selectedCategory
+        name: name,
+        ingredients_attributes: ingredients,
+        category: category
       }
     }
 
@@ -62,19 +46,32 @@ var MealForm = React.createClass({
   },
 
   addIngredientField: function(event) {
-    event.preventDefault();
-    var ingredients = this.state.ingredients;
-    ingredients.push(this.defaultIngredient());
+    this.state.ingredients.push(this.defaultIngredient());
 
     this.setState({
-      ingredients: ingredients,
-      disableIngredientButton: true
+      ingredients: this.state.ingredients
     });
+  },
+
+  removeIngredientField: function(index, event) {
+    this.state.ingredients.splice(index, 1);
+    this.forceUpdate();
+  },
+
+  handleNameInputChange: function(event) {
+    this.setState({
+      name: event.target.value
+    });
+  },
+
+  handleIngredientInputChange: function(index, event) {
+    this.state.ingredients[index].name = event.target.value;
+    this.forceUpdate();
   },
 
   handleRadioLabelClick: function(category, event) {
     this.setState({
-      selectedCategory: category
+      category: category
     });
 
     this.refs[category].getDOMNode().checked = true;
@@ -86,31 +83,44 @@ var MealForm = React.createClass({
 
   getInitialState: function() {
     return {
+      name: null,
       ingredients: [this.defaultIngredient()],
-      disableIngredientButton: true,
-      selectedCategory: null
+      category: 'other',
     };
+  },
+
+  renderNameField: function() {
+    return (
+      <div className="form-group">
+        <input type='text' placeholder='Meal name'
+                           value={this.state.name}
+                           onChange={this.handleNameInputChange}
+                           autoFocus={true} />
+      </div>
+    )
   },
 
   renderIngredientFields: function() {
     var fields = this.state.ingredients.map(function(ingredient, index) {
-      var addButton,
-          ref = "ingredientName" + index,
-          key = "ingredientField" + index,
-          isLastField = index == this.state.ingredients.length - 1,
-          toggleAddButton;
-          focus;
+      var button,
+          inputRef = 'ingredientName' + index,
+          groupRef = 'ingredientField' + index,
+          key = 'ingredientField' + index,
+          isLastField = index == this.state.ingredients.length - 1;
 
       if (isLastField) {
-        addButton = <button onClick={this.addIngredientField} disabled={this.state.disableIngredientButton}>Add</button>;
-        toggleAddButton = this.toggleAddButton;
-        focus = true;
+        button = <i className='icon-plus' onClick={this.addIngredientField} ></i>
+      } else {
+        button = <i className='icon-delete' onClick={this.removeIngredientField.bind(this, index)} ></i>
       }
 
       return (
-        <div className="form-group" key={key}>
-          <input type="text" ref={ref} placeholder="Ingredient" onChange={toggleAddButton} autoFocus={focus} />
-          {addButton}
+        <div className="form-group" key={key} ref={groupRef}>
+          <input type="text" ref={inputRef}
+                             placeholder="Ingredient"
+                             value={this.state.ingredients[index].name}
+                             onChange={this.handleIngredientInputChange.bind(this, index)} />
+          {button}
         </div>
       );
     }.bind(this));
@@ -119,13 +129,13 @@ var MealForm = React.createClass({
   },
 
   renderCategoryRadioButtons: function() {
-    var categories = this.categories();
+    var categories = ['other', 'poultry', 'seafood', 'meat', 'pasta', 'vegetarian'];
 
     var radioButtons = categories.map(function(category) {
       var selectedKlass;
       var checked;
 
-      if (category == this.state.selectedCategory) {
+      if (category == this.state.category) {
         selectedKlass = 'selected';
         checked = true;
       }
@@ -146,6 +156,7 @@ var MealForm = React.createClass({
   },
 
   render: function() {
+    var nameField = this.renderNameField();
     var ingredientFields = this.renderIngredientFields();
     var categoryRadioButons = this.renderCategoryRadioButtons();
 
@@ -154,9 +165,7 @@ var MealForm = React.createClass({
         <div className='modal-overlay' onClick={this.props.onFormExit}></div>
         <div ref='modal' className='modal'>
           <form ref='form' onSubmit={this.createMeal}>
-            <div className="form-group">
-              <input type='text' ref='mealName' placeholder='Meal name' />
-            </div>
+            {nameField}
             {ingredientFields}
             {categoryRadioButons}
             <input type='submit' value='Add Meal' />

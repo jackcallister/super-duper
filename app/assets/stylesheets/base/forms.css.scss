@@ -1,12 +1,38 @@
 @import 'flexbox';
+@import 'config/colours';
 
 .form-group {
   @include flexbox();
   @include justify-content(space-between);
+  @include align-items(center);
 
   margin-bottom: 1rem;
 
   input[type='text'] {
     width: 100%;
+  }
+
+  .icon-plus {
+    color: $grey;
+    font-weight: bold;
+    font-size: 1.5rem;
+    transition: color 0.1s;
+
+    &:hover {
+      cursor: pointer;
+      color: $green;
+    }
+  }
+
+  .icon-delete {
+    color: $grey;
+    font-weight: bold;
+    font-size: 1.5rem;
+    transition: color 0.1s;
+
+    &:hover {
+      cursor: pointer;
+      color: $red;
+    }
   }
 }
