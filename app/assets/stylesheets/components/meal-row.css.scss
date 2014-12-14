@@ -1,0 +1,46 @@
+@import 'flexbox';
+@import 'config/colours';
+
+.meal-row {
+  background: $white;
+  border: 1px solid $grey;
+  padding: 1rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  span {
+    @include flex(1);
+    line-height: 1.6;
+  }
+
+  i {
+    color: $grey;
+    max-width: 16px;
+  }
+
+  .icon-delete {
+    color: $grey;
+    &:hover {
+      color: $red;
+    }
+  }
+
+  .icon-arrow {
+    transition: transform 0.25s;
+  }
+
+  .icon-arrow.open {
+    transform: rotate(180deg);
+  }
+}
+
+.meal-row-header {
+  @include flexbox();
+  @include justify-content(space-between);
+}
+
+.meal-row-ingredients {
+  margin: 0;
+}
