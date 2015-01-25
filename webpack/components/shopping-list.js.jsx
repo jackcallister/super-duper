@@ -17,8 +17,7 @@ var ShoppingList = React.createClass({
     }.bind(this));
 
     return (
-      <div className="shopping-list">
-        <h1>Shopping List</h1>
+      <div className='shopping-list'>
         {meals}
         <ShareRow meals={this.props.meals} />
       </div>

@@ -84,10 +84,9 @@ var MealPicker = React.createClass({
     }.bind(this));
 
     return (
-      <div className="meal-picker">
-        <h1>Meal Picker</h1>
+      <div className='meal-picker'>
         {mealButtons}
-        <div className="grid-item">
+        <div className='grid-item'>
           <button onClick={this.props.onAddButtonClick}>Add</button>
         </div>
       </div>

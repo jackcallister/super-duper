@@ -43,8 +43,7 @@ var MealButton = React.createClass({
       <div className='grid-item meal-button' onClick={this.props.onSelect}>
         <div className={'meal-button-bar ' + this.props.category}></div>
         <div className='meal-button-label'>
-          <span>{this.props.name}</span>
-          <i className='icon-delete' onClick={this.onDelete}></i>
+          <span className='name'>{this.props.name}</span>
         </div>
       </div>
     );

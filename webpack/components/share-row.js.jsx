@@ -26,7 +26,7 @@ var ShareRow = React.createClass({
   render: function() {
 
     return (
-      <button onClick={this.emailList}>Send</button>
+      <button onClick={this.emailList} className='share-row'>Send</button>
     );
   }
 

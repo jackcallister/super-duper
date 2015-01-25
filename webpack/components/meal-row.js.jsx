@@ -29,12 +29,17 @@ var MealRow = React.createClass({
     }
 
     return (
-      <div>
-        <h3 onClick={this.handleCollapseToggle}>{this.props.meal.name}</h3>
-        <ul className={'accordian ' + collapsedKlass}>
+      <div className={'meal-row ' + collapsedKlass} onClick={this.handleCollapseToggle}>
+        <div className='meal-row-header' >
+          <h3>{this.props.meal.name}</h3>
+          <div className='actions'>
+            <span className={'icon-arrow ' + collapsedKlass} />
+            <span onClick={this.props.onRemove} className='icon-delete' />
+          </div>
+        </div>
+        <ul className='accordian'>
           {ingredients}
         </ul>
-        <button onClick={this.props.onRemove}>Remove</button>
       </div>
     );
   }
