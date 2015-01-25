@@ -1,0 +1,17 @@
+@import 'config/colours';
+@import 'config/spacing';
+
+nav {
+  background: $green;
+  border-bottom: 1px solid darken($green, 10%);
+  padding: $padding-regular;
+  color: $white;
+
+  ul {
+    list-style: none;
+  }
+
+  ul.brand li {
+    font-size: 1.6rem;
+  }
+}

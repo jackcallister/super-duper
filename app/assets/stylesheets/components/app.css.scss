@@ -1,10 +1,11 @@
 @import 'flexbox';
+@import 'config/spacing';
 
 .app main {
   @include flexbox();
+  @include align-items(stretch);
 }
 
-.meal-picker, .shopping-list {
-  padding: 2rem;
-  width: 50%;
+html, body, #app, .app, main {
+  height: 100%;
 }

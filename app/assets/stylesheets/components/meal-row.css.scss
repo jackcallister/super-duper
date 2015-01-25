@@ -3,16 +3,13 @@
 
 .meal-row {
   background: $white;
-  border: 1px solid $grey;
   padding: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-bottom: 1px;
 
   &:hover {
     cursor: pointer;
-  }
-
-  span {
-    @include flex(1);
-    line-height: 1.6;
   }
 
   i {
@@ -34,11 +31,16 @@
   .icon-arrow.open {
     transform: rotate(180deg);
   }
+
+  &.closed .accordian {
+    display: none;
+  }
 }
 
 .meal-row-header {
   @include flexbox();
   @include justify-content(space-between);
+  @include align-items(center);
 }
 
 .meal-row-ingredients {

@@ -1,38 +1,43 @@
 @import 'flexbox';
 @import 'config/colours';
+@import 'config/spacing';
 
 .meal-button {
   width: 120px;
-  height: 120px;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  height: 110px;
+  margin-right: $margin-regular;
+  margin-bottom: $margin-regular;
   background: $white;
+
+  &:nth-child(4n+4) {
+    margin-right: 0;
+  }
+
+  &:hover {
+    .meal-button-bar {
+      height: 16px;
+    }
+  }
 }
 
 .meal-button-label {
   @include flexbox();
   @include align-items(center);
 
-  border: 1px solid $grey;
-  border-top: 0;
-  height: 100px;
+  border: 1px solid $light-grey;
+  border-radius: 3px;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  height: 110px;
+  box-sizing: border-box;
 
-  span {
+  .name {
     @include flex-grow(1);
     text-align: center;
     margin-top: -1px;
     padding-left: 0.4rem;
     padding-right: 0.4rem;
-  }
-
-  .icon-delete {
-    color: $grey;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    &:hover {
-      color: $red;
-    }
+    font-size: 1.2rem;
   }
 
   &:hover {
@@ -41,26 +46,48 @@
 }
 
 .meal-button-bar {
-  height: 20px;
+  height: 12px;
   width: 100%;
-  background: $blue;
+  border-radius: 3px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: height 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &.other {
     background: $blue;
+    border: 1px solid darken($blue, 10%);
   }
+
   &.poultry {
     background: $orange;
+    border: 1px solid darken($orange, 10%);
   }
+
   &.seafood {
     background: $cream;
+    border: 1px solid darken($cream, 10%);
   }
+
   &.meat {
     background: $red;
+    border: 1px solid darken($red, 10%);
   }
+
   &.pasta {
     background: $yellow;
+    border: 1px solid darken($yellow, 10%);
   }
+
   &.vegetarian {
     background: $green;
+    border: 1px solid darken($green, 10%);
   }
 }

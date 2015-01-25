@@ -1,0 +1,14 @@
+@import 'flexbox';
+@import 'config/spacing';
+@import 'config/colours';
+
+.shopping-list {
+  @include flex-grow(1);
+  background: #EBEBEB;
+  padding: $padding-regular;
+  padding-top: 0;
+  border-left: 1px solid darken($grey, 10%);
+
+  @include flexbox();
+  @include flex-direction(column);
+}

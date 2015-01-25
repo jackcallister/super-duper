@@ -1,7 +1,10 @@
+@import 'flexbox';
+@import 'config/spacing';
+
 .meal-picker {
-  button {
-    float: left;
-  }
+  padding: $padding-regular;
+  width: 528px;
+  min-width: 528px;
 }
 
 .add-button {
