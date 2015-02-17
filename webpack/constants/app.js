@@ -4,7 +4,9 @@ module.exports = {
 
   ActionTypes: keyMirror({
     RECEIVE_MEALS: null,
-    SELECT_MEAL: null
+    RECEIVE_MEAL: null,
+    SELECT_MEAL: null,
+    CREATE_MEAL: null
   }),
 
   PayloadSources: keyMirror({

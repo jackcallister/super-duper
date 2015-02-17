@@ -34,6 +34,11 @@ AppDispatcher.register(function(payload) {
       MealStore.emitChange();
       break;
 
+    case ActionTypes.RECEIVE_MEAL:
+      _meals.push(action.meal);
+      MealStore.emitChange();
+      break;
+
     default:
   }
 });

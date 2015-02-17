@@ -1,6 +1,7 @@
 var React = require('react'),
     Picker = require('./components/picker'),
-    List = require('./components/list');
+    List = require('./components/list'),
+    Form = require('./components/form');
 
 var WebUtils = require('./utils/web-utils');
 
@@ -15,6 +16,7 @@ var App = React.createClass({
           <Picker />
           <List />
         </main>
+        <Form />
       </section>
     )
   }

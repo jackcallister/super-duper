@@ -7,5 +7,12 @@ module.exports = {
       type: ActionTypes.RECEIVE_MEALS,
       meals: meals
     });
+  },
+
+  receiveMeal: function(meal) {
+    AppDispatcher.handleServerAction({
+      type: ActionTypes.RECEIVE_MEAL,
+      meal: meal
+    });
   }
 }
