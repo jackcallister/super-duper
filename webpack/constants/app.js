@@ -6,7 +6,9 @@ module.exports = {
     RECEIVE_MEALS: null,
     RECEIVE_MEAL: null,
     SELECT_MEAL: null,
-    CREATE_MEAL: null
+    CREATE_MEAL: null,
+    CREATE_MEAL_COMPLETE: null,
+    CREATE_MEAL_ERROR: null
   }),
 
   PayloadSources: keyMirror({

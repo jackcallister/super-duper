@@ -203,11 +203,11 @@
 	  // Need to handle server errors
 	  createMeal: function(data) {
 	    request.post(Endpoints.MEALS_CREATE)
-	           .send({meal: data})
-	           .end(function(error, res){
-	             json = JSON.parse(res.text).meal;
-	             ServerActionCreators.receiveMeal(json);
-	           });
+	    .send({meal: data})
+	    .end(function(error, res){
+	      var json = JSON.parse(res.text).meal;
+	      ServerActionCreators.createMealComplete(json);
+	    });
 	  }
 	};
 
@@ -404,6 +404,7 @@
 	var AppDispatcher = __webpack_require__(17);
 
 	var _meals = [];
+	var _localMeals = [];
 
 	var MealStore = assign({}, EventEmitter.prototype, {
 
@@ -420,7 +421,7 @@
 	  },
 
 	  getAll: function() {
-	    return _meals;
+	    return _meals.concat(_localMeals);
 	  }
 	});
 
@@ -434,9 +435,19 @@
 	      MealStore.emitChange();
 	      break;
 
-	    case ActionTypes.RECEIVE_MEAL:
+	    case ActionTypes.CREATE_MEAL:
+	      _localMeals.push(action.meal);
+	      MealStore.emitChange();
+	      break;
+
+	    case ActionTypes.CREATE_MEAL_COMPLETE:
+	      _localMeals = [];
 	      _meals.push(action.meal);
 	      MealStore.emitChange();
+	      break;
+
+	    case ActionTypes.CREATE_MEAL_ERROR:
+	      // Handle errors!
 	      break;
 
 	    default:
@@ -461,9 +472,13 @@
 	    });
 	  },
 
-	  receiveMeal: function(meal) {
+	  createMealError: function() {
+
+	  },
+
+	  createMealComplete: function(meal) {
 	    AppDispatcher.handleServerAction({
-	      type: ActionTypes.RECEIVE_MEAL,
+	      type: ActionTypes.CREATE_MEAL_COMPLETE,
 	      meal: meal
 	    });
 	  }
@@ -761,7 +776,9 @@
 	    RECEIVE_MEALS: null,
 	    RECEIVE_MEAL: null,
 	    SELECT_MEAL: null,
-	    CREATE_MEAL: null
+	    CREATE_MEAL: null,
+	    CREATE_MEAL_COMPLETE: null,
+	    CREATE_MEAL_ERROR: null
 	  }),
 
 	  PayloadSources: keyMirror({

@@ -9,9 +9,13 @@ module.exports = {
     });
   },
 
-  receiveMeal: function(meal) {
+  createMealError: function() {
+
+  },
+
+  createMealComplete: function(meal) {
     AppDispatcher.handleServerAction({
-      type: ActionTypes.RECEIVE_MEAL,
+      type: ActionTypes.CREATE_MEAL_COMPLETE,
       meal: meal
     });
   }

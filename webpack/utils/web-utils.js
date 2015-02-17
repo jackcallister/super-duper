@@ -15,10 +15,10 @@ module.exports = {
   // Need to handle server errors
   createMeal: function(data) {
     request.post(Endpoints.MEALS_CREATE)
-           .send({meal: data})
-           .end(function(error, res){
-             json = JSON.parse(res.text).meal;
-             ServerActionCreators.receiveMeal(json);
-           });
+    .send({meal: data})
+    .end(function(error, res){
+      var json = JSON.parse(res.text).meal;
+      ServerActionCreators.createMealComplete(json);
+    });
   }
 };
