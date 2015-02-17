@@ -1,5 +1,4 @@
-var React = require('react/addons'),
-    Meal = require('../factories/meal.js');
+var React = require('react/addons');
 
 var MealForm = React.createClass({
 
@@ -177,3 +176,63 @@ var MealForm = React.createClass({
 });
 
 module.exports = MealForm;
+
+
+
+
+// shouldReflowGrid: function(index, gridItemIdsToAnimate) {
+//     this.setGridItemPositionsForAnimation();
+
+//     var mealPicker = $(this.getDOMNode());
+//     var gridItems = gridItemIdsToAnimate.map(function(id) {
+//       return mealPicker.find('[data-reactid="' + id + '"]');
+//     });
+
+//     gridItems.reverse().forEach(function(gridItem, index){
+//       if (index == gridItems.length - 1) {
+//         gridItem.addClass('pop-out-leave-active');
+//       } else {
+//         var proceedingItemsPosition = $(gridItems[index + 1]).position();
+//         gridItem.animate({
+//           'top': proceedingItemsPosition.top,
+//           'left': proceedingItemsPosition.left
+//         }, 300);
+//       }
+//     }.bind(this));
+
+//     $(":animated").promise().done(function() {
+//       this.unsetMealButtonPositionsForAnimation();
+//     }.bind(this));
+//   },
+
+//   setGridItemPositionsForAnimation: function() {
+//     var positions = []
+//     var gridItems = $(this.getDOMNode()).children('.grid-item');
+
+//     gridItems.toArray().forEach(function(gridItem, index) {
+//       var node = $(gridItem);
+//       var position = node.position();
+
+//       positions.push(position);
+//     });
+
+//     gridItems.toArray().forEach(function(gridItem, index) {
+//       var node = $(gridItem);
+
+//       node.css('top', positions[index].top);
+//       node.css('left', positions[index].left);
+//       node.css('position', 'absolute');
+//     });
+//   },
+
+//   unsetMealButtonPositionsForAnimation: function() {
+//     var gridItems = $(this.getDOMNode()).children('.grid-item');
+
+//     gridItems.toArray().forEach(function(gridItem, index) {
+//       var node = $(gridItem);
+
+//       node.css('top', 0);
+//       node.css('left', 0);
+//       node.css('position', 'relative');
+//     });
+//   },
