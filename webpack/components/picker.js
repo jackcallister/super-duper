@@ -1,13 +1,13 @@
 var React = require('react/addons'),
     MealStore = require('../stores/meal-store'),
-    LocalMealStore = require('../stores/local-meal-store'),
+    CacheMealStore = require('../stores/cache/meal-store'),
     MealButton = require('./picker/meal-button');
     DisabledMealButton = require('./picker/disabled-meal-button');
 
 function getStateFromStores() {
   return {
     meals: MealStore.getAll(),
-    localMeals: LocalMealStore.getAll()
+    cacheMeals: CacheMealStore.getAll()
   }
 }
 
@@ -20,8 +20,8 @@ var MealPicker = React.createClass({
   },
 
   _renderSavingMealButtons: function() {
-    return this.state.localMeals.map(function(meal, index) {
-      return <DisabledMealButton meal={meal} key={'saving-meal-button-' + index} />;
+    return this.state.cacheMeals.map(function(meal, index) {
+      return <DisabledMealButton meal={meal} key={'disabled-meal-button-' + index} />;
     });
   },
 
@@ -31,12 +31,12 @@ var MealPicker = React.createClass({
 
   componentDidMount: function() {
     MealStore.addChangeListener(this._onChange);
-    LocalMealStore.addChangeListener(this._onChange);
+    CacheMealStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
     MealStore.removeChangeListener(this._onChange);
-    LocalMealStore.removeChangeListener(this._onChange);
+    CacheMealStore.removeChangeListener(this._onChange);
   },
 
   getInitialState: function() {

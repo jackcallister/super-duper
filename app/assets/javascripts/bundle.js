@@ -79,14 +79,14 @@
 
 	var React = __webpack_require__(5),
 	    MealStore = __webpack_require__(7),
-	    LocalMealStore = __webpack_require__(8),
+	    CacheMealStore = __webpack_require__(191),
 	    MealButton = __webpack_require__(6);
 	    DisabledMealButton = __webpack_require__(189);
 
 	function getStateFromStores() {
 	  return {
 	    meals: MealStore.getAll(),
-	    localMeals: LocalMealStore.getAll()
+	    cacheMeals: CacheMealStore.getAll()
 	  }
 	}
 
@@ -99,8 +99,8 @@
 	  },
 
 	  _renderSavingMealButtons: function() {
-	    return this.state.localMeals.map(function(meal, index) {
-	      return React.createElement(DisabledMealButton, {meal: meal, key: 'saving-meal-button-' + index});
+	    return this.state.cacheMeals.map(function(meal, index) {
+	      return React.createElement(DisabledMealButton, {meal: meal, key: 'disabled-meal-button-' + index});
 	    });
 	  },
 
@@ -110,12 +110,12 @@
 
 	  componentDidMount: function() {
 	    MealStore.addChangeListener(this._onChange);
-	    LocalMealStore.addChangeListener(this._onChange);
+	    CacheMealStore.addChangeListener(this._onChange);
 	  },
 
 	  componentWillUnmount: function() {
 	    MealStore.removeChangeListener(this._onChange);
-	    LocalMealStore.removeChangeListener(this._onChange);
+	    CacheMealStore.removeChangeListener(this._onChange);
 	  },
 
 	  getInitialState: function() {
@@ -410,18 +410,18 @@
 	  // Need to handle server errors
 	  init: function() {
 	    request.get(Endpoints.MEALS_INDEX, function(res) {
-	      json = JSON.parse(res.text);
-	      ServerActionCreators.receiveMeals(json);
+	      meals = JSON.parse(res.text);
+	      ServerActionCreators.receiveMeals(meals);
 	    })
 	  },
 
 	  // Need to handle server errors
-	  createMeal: function(data) {
+	  createMeal: function(meal, cacheId) {
 	    request.post(Endpoints.MEALS_CREATE)
-	    .send({meal: data})
+	    .send({meal: meal})
 	    .end(function(error, res){
-	      var json = JSON.parse(res.text).meal;
-	      ServerActionCreators.createMealComplete(json);
+	      var meal = JSON.parse(res.text).meal;
+	      ServerActionCreators.createMealComplete(meal, cacheId);
 	    });
 	  }
 	};
@@ -518,76 +518,29 @@
 
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var assign = __webpack_require__(22);
-	var EventEmitter = __webpack_require__(23).EventEmitter;
-	var ActionTypes = __webpack_require__(16).ActionTypes;
-	var AppDispatcher = __webpack_require__(18);
-
-	var _meals = [];
-
-	var LocalMealStore = assign({}, EventEmitter.prototype, {
-
-	  emitChange: function() {
-	    this.emit('change');
-	  },
-
-	  addChangeListener: function(callback) {
-	    this.on('change', callback);
-	  },
-
-	  removeChangeListener: function(callback) {
-	    this.removeListener('change', callback);
-	  },
-
-	  getAll: function() {
-	    return _meals;
-	  }
-	});
-
-
-	AppDispatcher.register(function(payload) {
-	  var action = payload.action;
-
-	  switch(action.type) {
-
-	    case ActionTypes.CREATE_MEAL:
-	      _meals.push(action.meal);
-	      LocalMealStore.emitChange();
-	      break;
-
-	    case ActionTypes.CREATE_MEAL_COMPLETE:
-	      _meals = [];
-	      LocalMealStore.emitChange();
-	      break;
-
-	    default:
-	  }
-	});
-
-	module.exports = LocalMealStore;
-
-
-/***/ },
+/* 8 */,
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(18);
 	var ActionTypes = __webpack_require__(16).ActionTypes;
 	var WebUtils = __webpack_require__(4);
+	var MealUtils = __webpack_require__(190);
 
 	module.exports = {
 	  createMeal: function(meal) {
+	    var cacheId = MealUtils.generateCacheId();
+
 	    AppDispatcher.handleViewAction({
 	      type: ActionTypes.CREATE_MEAL,
-	      meal: meal
+	      meal: meal,
+	      cacheId: cacheId
 	    });
 
-	    WebUtils.createMeal(meal);
+	    WebUtils.createMeal(meal, cacheId);
 	  }
 	}
+
 
 /***/ },
 /* 10 */
@@ -755,10 +708,11 @@
 
 	  },
 
-	  createMealComplete: function(meal) {
+	  createMealComplete: function(meal, cacheId) {
 	    AppDispatcher.handleServerAction({
 	      type: ActionTypes.CREATE_MEAL_COMPLETE,
-	      meal: meal
+	      meal: meal,
+	      cacheId: cacheId
 	    });
 	  }
 	}
@@ -23422,6 +23376,75 @@
 	});
 
 	module.exports = DisabledMealButton;
+
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = {
+	  generateCacheId: function() {
+	    return new Date().getTime();
+	  }
+	}
+
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var assign = __webpack_require__(22);
+	var EventEmitter = __webpack_require__(23).EventEmitter;
+	var ActionTypes = __webpack_require__(16).ActionTypes;
+	var AppDispatcher = __webpack_require__(18);
+
+	var _meals = [];
+
+	var MealStore = assign({}, EventEmitter.prototype, {
+
+	  emitChange: function() {
+	    this.emit('change');
+	  },
+
+	  addChangeListener: function(callback) {
+	    this.on('change', callback);
+	  },
+
+	  removeChangeListener: function(callback) {
+	    this.removeListener('change', callback);
+	  },
+
+	  getAll: function() {
+	    return _meals;
+	  }
+	});
+
+
+	AppDispatcher.register(function(payload) {
+	  var action = payload.action;
+
+	  switch(action.type) {
+
+	    case ActionTypes.CREATE_MEAL:
+	      action.meal.cacheId = action.cacheId;
+	      _meals.push(action.meal);
+	      MealStore.emitChange();
+	      break;
+
+	    case ActionTypes.CREATE_MEAL_COMPLETE:
+	      for (var i = _meals.length - 1; i >= 0; i--) {
+	        if (_meals[i].cacheId == action.cacheId) {
+	          _meals.splice(i, 1);
+	        };
+	      };
+	      MealStore.emitChange();
+	      break;
+
+	    default:
+	  }
+	});
+
+	module.exports = MealStore;
 
 
 /***/ }
