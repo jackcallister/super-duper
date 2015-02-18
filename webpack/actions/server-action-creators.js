@@ -13,10 +13,11 @@ module.exports = {
 
   },
 
-  createMealComplete: function(meal) {
+  createMealComplete: function(meal, cacheId) {
     AppDispatcher.handleServerAction({
       type: ActionTypes.CREATE_MEAL_COMPLETE,
-      meal: meal
+      meal: meal,
+      cacheId: cacheId
     });
   }
 }
