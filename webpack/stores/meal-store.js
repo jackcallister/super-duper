@@ -4,7 +4,6 @@ var ActionTypes = require('../constants/app').ActionTypes;
 var AppDispatcher = require('../dispatcher/app');
 
 var _meals = [];
-var _localMeals = [];
 
 var MealStore = assign({}, EventEmitter.prototype, {
 
@@ -21,10 +20,9 @@ var MealStore = assign({}, EventEmitter.prototype, {
   },
 
   getAll: function() {
-    return _meals.concat(_localMeals);
+    return _meals;
   }
 });
-
 
 AppDispatcher.register(function(payload) {
   var action = payload.action;
@@ -35,13 +33,7 @@ AppDispatcher.register(function(payload) {
       MealStore.emitChange();
       break;
 
-    case ActionTypes.CREATE_MEAL:
-      _localMeals.push(action.meal);
-      MealStore.emitChange();
-      break;
-
     case ActionTypes.CREATE_MEAL_COMPLETE:
-      _localMeals = [];
       _meals.push(action.meal);
       MealStore.emitChange();
       break;
