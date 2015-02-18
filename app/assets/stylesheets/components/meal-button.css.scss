@@ -20,6 +20,11 @@
   }
 }
 
+.meal-button-disabled {
+  opacity: 0.5;
+  cursor: normal;
+}
+
 .meal-button-label {
   @include flexbox();
   @include align-items(center);
