@@ -1,11 +1,11 @@
 var assign = require('object-assign');
 var EventEmitter = require('events').EventEmitter;
-var ActionTypes = require('../constants/app').ActionTypes;
-var AppDispatcher = require('../dispatcher/app');
+var ActionTypes = require('../../constants/app').ActionTypes;
+var AppDispatcher = require('../../dispatcher/app');
 
 var _meals = [];
 
-var LocalMealStore = assign({}, EventEmitter.prototype, {
+var MealStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit('change');
@@ -31,17 +31,22 @@ AppDispatcher.register(function(payload) {
   switch(action.type) {
 
     case ActionTypes.CREATE_MEAL:
+      action.meal.cacheId = action.cacheId;
       _meals.push(action.meal);
-      LocalMealStore.emitChange();
+      MealStore.emitChange();
       break;
 
     case ActionTypes.CREATE_MEAL_COMPLETE:
-      _meals = [];
-      LocalMealStore.emitChange();
+      for (var i = _meals.length - 1; i >= 0; i--) {
+        if (_meals[i].cacheId == action.cacheId) {
+          _meals.splice(i, 1);
+        };
+      };
+      MealStore.emitChange();
       break;
 
     default:
   }
 });
 
-module.exports = LocalMealStore;
+module.exports = MealStore;
